@@ -1,8 +1,8 @@
 --------------------------------------------------------
---  파일이 생성됨 - 토요일-12월-16-2017   
+--  파일이 생성됨 - 수요일-12월-20-2017   
 --------------------------------------------------------
 --------------------------------------------------------
 --  DDL for Sequence BOOK_NO
 --------------------------------------------------------
 
-   CREATE SEQUENCE  "HBM"."BOOK_NO"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 155 CACHE 20 NOORDER  NOCYCLE ;
+   CREATE SEQUENCE  "HBM"."BOOK_NO"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 195 CACHE 20 NOORDER  NOCYCLE ;

@@ -11,23 +11,33 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-import hbm.dao.BookDAO;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
+
+import hbm.book.Book;
+import hbm.book.BookDAO;
 import hbm.dao.TestTableDAO;
 import hbm.gui.GuiManager;
-import hbm.vo.Book;
+import hbm.util.db.DbManager;
+import hbm.util.db.sql.DataConverter;
+import hbm.util.db.sql.SqlFactory;
 import hbm.vo.TestTable;
-import jbm.util.db.DbManager;
-import jbm.util.db.sql.DataConverter;
-import jbm.util.db.sql.SqlFactory;
 
 public class Hbm {
-	public static void main(String[] args) throws SQLException, ClassNotFoundException {
+	public static void main(String[] args) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		System.out.println("=====  HBM Started!  =====");
 		
-//		@SuppressWarnings("unused")
-//		GuiManager gm = new GuiManager();
+		// HBM GuiManager
+		@SuppressWarnings("unused")
+		GuiManager gm = new GuiManager();
+		// Java LookAndFeel (JTatto?)
+//		UIManager.LookAndFeelInfo[] lookAndFeelInfo = UIManager.getInstalledLookAndFeels();
+//		for(LookAndFeelInfo i : lookAndFeelInfo)
+//			System.out.println("lookAndFeelInfo: " + i.getName() + ", " + i.getClassName());
+//		UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 
-		// make book instatce and test
+		// make book instance and test
 		Book b1 = new Book(1, 513144, "윤성우의 열혈 C 프로그래밍", "윤성우", 30000,
 				"오렌지미디어", LocalDate.now(), "문적원1", "2_yoon_sung_woo_c.jpg",
 				"전양훈", LocalDateTime.now(), LocalDate.now());
@@ -43,22 +53,36 @@ public class Hbm {
 		b2.turnIn();
 		
 		System.out.println(b1.toString() + "\n" + b2.toString()+ "\n");
-		//-- make book instatce and test
+		//-- make book instance and test
 		
 		
 		/***** DAO test *****/
 		/** Insert a Book **/
 		BookDAO bookDAO = new BookDAO();
+		List<Map<String, Object>> bookList;
 //		System.out.println("bookDAO.insert(b1): " + bookDAO.insert(b1));
 //		System.out.println("bookDAO.insert(b2): " + bookDAO.insert(b2));
 		/** Select all Books **/
-		List<Map<String, Object>> bookList = bookDAO.selectAll();
-		System.out.println(bookList.toString());
-//		Book book = (Book) DataConverter.mapToObject(bookList.get(0), new Book());	// TODO 컬렉션 기반으로 변경
-//		System.out.println("book(0): " + book.toString());
-		Book book = (Book) DataConverter.mapToObject(bookList.get(1), new Book());	// TODO 컬렉션 기반으로 변경
-		System.out.println("book(1): " + book.toString());
-		
+		bookList = bookDAO.selectAll();
+//		System.out.println(bookList.toString());
+//		Book book1 = DataConverter.mapToObject(bookList.get(0), new Book());	// TODO 컬렉션 기반으로 변경
+//		System.out.println("book(0): " + book1.toString());
+//		Book book2 = (Book) DataConverter.mapToObject(bookList.get(1), new Book());	// TODO 컬렉션 기반으로 변경
+//		System.out.println("book(1): " + book2.toString());
+//		Book book3 = (Book) DataConverter.mapToObject(bookList.get(2), new Book());	// TODO 컬렉션 기반으로 변경
+//		System.out.println("book(2): " + book3.toString());
+		/** Select Books by Condition **/
+		bookList = bookDAO.selectAllByName("윤성우", true, SqlFactory.COL_TYPE.STRING, "name", SqlFactory.ORDER.ASC);
+		for(int i = 0; i < bookList.size(); i++) System.out.println(bookList.get(i).toString());
+		bookList = bookDAO.selectAllByName("윤성우", true, SqlFactory.COL_TYPE.INT, "no", SqlFactory.ORDER.ASC);
+		for(int i = 0; i < bookList.size(); i++) System.out.println(bookList.get(i).toString());
+		bookList = bookDAO.selectAllByName("윤성우", true, SqlFactory.COL_TYPE.LOCAL_DATE, "pubDay", SqlFactory.ORDER.ASC);
+		for(int i = 0; i < bookList.size(); i++) System.out.println(bookList.get(i).toString());
+		bookList = bookDAO.selectAllByName("윤성우", true, SqlFactory.COL_TYPE.LOCAL_DATE_TIME, "brwDay", SqlFactory.ORDER.ASC);
+		for(int i = 0; i < bookList.size(); i++) System.out.println(bookList.get(i).toString());
+		/** Update a Book by Condition **/
+//		b1.setAuthor("수정된 저자");
+//		bookDAO.updateAllByNo("no", 178, b1);
 		
 		
 

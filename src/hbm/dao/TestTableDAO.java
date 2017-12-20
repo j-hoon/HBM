@@ -8,9 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import hbm.util.db.DbManager;
+import hbm.util.db.sql.DataConverter;
 import hbm.vo.TestTable;
-import jbm.util.db.DbManager;
-import jbm.util.db.sql.DataConverter;
 
 public class TestTableDAO {
 	
