@@ -6,9 +6,10 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
 
+import hbm.util.DataConverter;
 import hbm.util.db.DbManager;
-import hbm.util.db.sql.DataConverter;
 import hbm.util.db.sql.SqlFactory;
+import hbm.util.db.sql.SqlFactory.*;
 
 public class BookDAO {
 
@@ -38,21 +39,28 @@ public class BookDAO {
 	
 	// Select Only One Book - useless?
 	
-	// Select Books by Book.name with order (TODO | author | pub | loc | brwer) - <String>
-	public List<Map<String, Object>> selectAllByName(String name, boolean isLike, SqlFactory.COL_TYPE orderColType, String orderColName, SqlFactory.ORDER order) throws SQLException {
-		String sql = SqlFactory.makeSelectByCond(SqlFactory.TABLE_NAME.BOOK, SqlFactory.COL_TYPE.STRING,
-				"NAME", name, isLike, orderColType, orderColName, order);
-		System.out.println("SqlFactory.makeSelectByCond: " + sql);
+	// Select Books by Book.anyAttr Condition with Order
+	public <T> List<Map<String, Object>> selectAllByCondWithOrder(COL_TYPE condColType, String condColName, T condValue, boolean isLike,
+			COL_TYPE orderColType, String orderColName, ORDER order) throws SQLException {
+		String sql = SqlFactory.makeSelectAllByCondWithOrder(TABLE_NAME.BOOK, condColType, condColName, condValue, isLike, orderColType, orderColName, order);
+		System.out.println("SqlFactory.makeSelectAllByCondWithOrder: " + sql);
 		List<Map<String, Object>> list = DataConverter.convResultSetToMapList(this.stmt.executeQuery(sql));
 		return list;
 	}
-	// TODO Select Books by Book.pubDay (| period) - <LocalDate>
-	// TODO Select Books by Book.brwDay - <LocalDateTime>
 	
-	// Update All a Book by Book.No (TODO | symbol | price) - <int>
-	public int updateAllByNo(String colName, int colNo, Book book) throws SQLException {
-		String sql = SqlFactory.makeUpdateAllByInt(SqlFactory.TABLE_NAME.BOOK, colName, colNo, book);
-//		System.out.println(sql);
+	// Update All of a Book by Book.No(PK)
+	public int updateAllByNo(int colNo, Book book) throws SQLException {
+		String sql = SqlFactory.makeUpdateAllByInt(TABLE_NAME.BOOK, "NO", colNo, book);
+		System.out.println("SqlFactory.makeUpdateAllByInt: " + sql);
+		int ret = stmt.executeUpdate(sql);
+		conn.commit();
+		return ret;
+	}
+	
+	// Delete a Book by Book.No(PK)
+	public int deleteByNo(int colNo) throws SQLException {
+		String sql = SqlFactory.makeDeleteByInt(TABLE_NAME.BOOK, "NO", colNo);
+		System.out.println("SqlFactory.makeDeleteByInt: " + sql);
 		int ret = stmt.executeUpdate(sql);
 		conn.commit();
 		return ret;

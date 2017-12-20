@@ -20,7 +20,7 @@ public class Book {
 	private String imgFile;			// 도서 이미지 파일 명	
 	
 	private String brwer;			// 대여자				(borrower)			(TODO int형 user_no 고려)
-	private LocalDateTime brwDay;	// 대여일				(borrow day)		(Mapping to TIMESTAMP WITH LOCAL TIME ZONE)	(TODO null 외의 값 고려)
+	private LocalDateTime brwDay;	// 대여일				(borrow day)		(TODO null 외의 값 고려)
 	private LocalDate period;		// 대여기간									(TODO null 외의 값 고려)
 	// 연체일: 반납기간-오늘	TODO 대여기간 알고리즘 고려
 	// 예약자: TODO 별도 테이블 고려

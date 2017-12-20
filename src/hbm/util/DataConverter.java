@@ -1,4 +1,4 @@
-package hbm.util.db.sql;
+package hbm.util;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -11,11 +11,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import hbm.book.Book;
+
 public class DataConverter {
 	
+	/*
+	 * DB에서 호출 시 : DB-ResultSet => List<Map>
+	 * 호출 결과 GUI에 출력 시 : List<Map>
+	 * DB에 추가, 수정 시 : List<Map> -> List<VO> or VO => DB
+	 */
 	
 	/*
-	 * 
+	 * Convert SQL-ResultSet to List<Map<String, Object>>
 	 */
 	public static List<Map<String, Object>> convResultSetToMapList(ResultSet resultset) throws SQLException {
 		ResultSetMetaData resultSetMetaData = resultset.getMetaData();
@@ -37,7 +44,7 @@ public class DataConverter {
 	}
 	
 	/*
-	 * 
+	 * Convert Map<String, Object> to VO
 	 */
 	public static <T> T mapToObject(Map<String, Object> map, T obj) {
         String keyAttribute = null;
@@ -88,5 +95,18 @@ public class DataConverter {
         }
         return obj;
     }
+
+	/*
+	 * Convert List<Map<String, Object>> to List<VO>
+	 */
+	public static <T> List<T> mapListToObjectList(List<Map<String, Object>> mapList, List<T> objList) {
+        if(!mapList.isEmpty()) {
+        	for(int i = 0; i < mapList.size(); i++) {
+        		mapToObject(mapList.get(i), objList.get(i));
+        	}
+        }
+        return objList;
+    }
+	
 	
 }

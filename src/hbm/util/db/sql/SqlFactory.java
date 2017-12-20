@@ -20,6 +20,7 @@ public class SqlFactory {
 	private final static String INSERT_SQL = "INSERT INTO  VALUES(";	// INSERT INTO _TABLE_ VALUES(_COL_VALUES_);
 	private final static String SELECT_SQL = "SELECT * FROM ";	// SELECT * FROM _TABLE_ WHERE = _COND_ ORDER BY _COL_ _ORDER_;
 	private final static String UPDATE_SQL = "UPDATE  SET ";	// UPDATE _TABLE_ SET COL1 = _COL1_VALUE_, ... WHERE _COND_ = _COND_VALUE_;
+	private final static String DELETE_SQL = "DELETE FROM ";	// DELETE FROM BOOK WHERE no = 158;
 	
 	private static StringBuffer stringBuffer;
 	
@@ -59,32 +60,9 @@ public class SqlFactory {
 	}
 	
 	/*
-	 * Make Select All by String SQL
+	 * Make Select All by Condition with Condition SQL (TODO: 대소비교 기능 추가)
 	 */
-	public static String makeSelectByString(TABLE_NAME tableName, String colName, String cond, boolean isLike, ORDER order) {
-		stringBuffer = new StringBuffer(SELECT_SQL);
-		stringBuffer.append(tableName.toString());
-		stringBuffer.append(" WHERE ");
-		stringBuffer.append(colName);
-		if(isLike) {
-			stringBuffer.append(" LIKE '%");
-			stringBuffer.append(cond);
-			stringBuffer.append("%'");
-		} else {
-			stringBuffer.append(" = '");
-			stringBuffer.append(cond);
-			stringBuffer.append("'");
-		}
-		stringBuffer.append(" ORDER BY '");
-		stringBuffer.append(cond.toUpperCase());
-		stringBuffer.append("' ");
-		stringBuffer.append(order.toString());
-		return stringBuffer.toString();
-	}
-	/*
-	 * Make Select All by Condition SQL
-	 */
-	public static String makeSelectByCond(TABLE_NAME tableName, COL_TYPE colType, String colName, String cond,
+	public static <T> String makeSelectAllByCondWithOrder(TABLE_NAME tableName, COL_TYPE colType, String colName, T cond,
 			boolean isLike, COL_TYPE orderColType, String orderColName, ORDER order) {
 		stringBuffer = new StringBuffer(SELECT_SQL);
 		stringBuffer.append(tableName.toString());
@@ -92,24 +70,24 @@ public class SqlFactory {
 		stringBuffer.append(colName);
 		if(isLike) {
 			stringBuffer.append(" LIKE ");
-			if(colType.toString() == COL_TYPE.STRING.toString() || colType.toString() == COL_TYPE.LOCAL_DATE_TIME.toString()) {
+			if(colType.toString() == COL_TYPE.STRING.toString() || colType.toString() == COL_TYPE.LOCAL_DATE.toString()
+					 || colType.toString() == COL_TYPE.LOCAL_DATE_TIME.toString())
 				stringBuffer.append("'");
-			}
 			stringBuffer.append("%");
 			stringBuffer.append(cond);
 			stringBuffer.append("%");
-			if(colType.toString() == COL_TYPE.STRING.toString() || colType.toString() == COL_TYPE.LOCAL_DATE_TIME.toString()) {
+			if(colType.toString() == COL_TYPE.STRING.toString() || colType.toString() == COL_TYPE.LOCAL_DATE.toString()
+					 || colType.toString() == COL_TYPE.LOCAL_DATE_TIME.toString())
 				stringBuffer.append("'");
-			}
 		} else {
 			stringBuffer.append(" = ");
-			if(colType.toString() == COL_TYPE.STRING.toString() || colType.toString() == COL_TYPE.LOCAL_DATE_TIME.toString()) {
+			if(colType.toString() == COL_TYPE.STRING.toString() || colType.toString() == COL_TYPE.LOCAL_DATE.toString()
+					 || colType.toString() == COL_TYPE.LOCAL_DATE_TIME.toString())
 				stringBuffer.append("'");
-			}
 			stringBuffer.append(cond);
-			if(colType.toString() == COL_TYPE.STRING.toString() || colType.toString() == COL_TYPE.LOCAL_DATE_TIME.toString()) {
+			if(colType.toString() == COL_TYPE.STRING.toString() || colType.toString() == COL_TYPE.LOCAL_DATE.toString()
+					 || colType.toString() == COL_TYPE.LOCAL_DATE_TIME.toString())
 				stringBuffer.append("'");
-			}
 		}
 		stringBuffer.append(" ORDER BY ");
 		stringBuffer.append(orderColName.toUpperCase());
@@ -117,20 +95,10 @@ public class SqlFactory {
 		stringBuffer.append(order.toString());
 		return stringBuffer.toString();
 	}
-	// TODO: how to make various select SQL
-	/*
-	 * TODO: Make Select All by int SQL 
-	 */
-	/*
-	 * TODO: Make Select All by LocalDate SQL
-	 */
-	/*
-	 * TODO: Make Select All by LocalDateTime SQL
-	 */
 	
 	/***** UPDATE *****/
 	/*
-	 * Make Update All by Int SQL
+	 * Make Update All of a row by Int(PK) SQL
 	 */
 	public static String makeUpdateAllByInt(TABLE_NAME tableName, String colName, int colNo, Object obj) {
 		stringBuffer = new StringBuffer(UPDATE_SQL);
@@ -155,9 +123,17 @@ public class SqlFactory {
 
 	/***** DELETE *****/
 	/*
-	 * 
+	 * Make Delete a row by int(PK) SQL
 	 */
-	
+	public static String makeDeleteByInt(TABLE_NAME tableName, String colName, int colNo) {
+		stringBuffer = new StringBuffer(DELETE_SQL);
+		stringBuffer.append(tableName.toString());
+		stringBuffer.append(" WHERE ");
+		stringBuffer.append(colName);
+		stringBuffer.append(" = ");
+		stringBuffer.append(colNo);
+		return stringBuffer.toString();
+	}
 	
 	
 	
