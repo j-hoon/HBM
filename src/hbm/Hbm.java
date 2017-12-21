@@ -28,7 +28,10 @@ import hbm.vo.TestTable;
 //import hbm.util.db.sql.SqlFactory.COL_TYPE;
 
 public class Hbm {
-	public static void main(String[] args) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+	
+//	final boolean isDebug = true;
+	
+	public static void main(String[] args) throws SQLException {
 		System.out.println("=====  HBM Started!  =====");
 		
 		// HBM GuiManager
@@ -65,51 +68,42 @@ public class Hbm {
 		List<Book> bookVOList;
 		Book editedBook = new Book(-1, 523144, "윤성우의 열혈 C# 프로그래밍", "미상", 50000);
 		/** Insert a Book **/
-//		System.out.println("bookDAO.insert(b1): " + bookDAO.insert(b1));
-//		System.out.println("bookDAO.insert(b2): " + bookDAO.insert(b2));
+		bookDAO.insert(b1);
+//		bookDAO.insert(b2);
 		/** Select all Books **/
 		bookMapList = bookDAO.selectAll();
-		for(int i = 0; i < bookMapList.size(); i++) System.out.println(bookMapList.get(i).toString());
+//		for(int i = 0; i < bookMapList.size(); i++) System.out.println(bookMapList.get(i).toString());
 		// Map to VO
-//		Book book1 = DataConverter.mapToObject(bookList.get(0), new Book());
+		Book book1 = DataConverter.mapToVO(Book.class, bookMapList.get(0));
+//		System.out.println(book1.toString());
 		// List<Map> to List<VO>
-		bookVOList = new ArrayList<Book>();
-		for(int i = 0; i < bookMapList.size(); i++) bookVOList.add(new Book());
-		DataConverter.mapListToObjectList(bookMapList, bookVOList);
-		for(int i = 0; i < bookVOList.size(); i++) System.out.println(bookVOList.get(i).toString());
+//		bookVOList = DataConverter.mapListToVOList(Book.class, bookMapList);
+//		for(int i = 0; i < bookVOList.size(); i++) System.out.println(bookVOList.get(i).toString());
 		/** Select Books by Condition **/
 		// String, int
 		bookMapList = bookDAO.selectAllByCondWithOrder(COL_TYPE.STRING, "name", "윤성우", true, COL_TYPE.INT, "no", ORDER.ASC);
-//		for(int i = 0; i < bookMapList.size(); i++) System.out.println(bookMapList.get(i).toString());
 //		// String, String
-//		bookMapList = bookDAO.selectAllByCondWithOrder(COL_TYPE.STRING, "name", "윤성우", true, COL_TYPE.STRING, "name", ORDER.ASC);
-//		for(int i = 0; i < bookMapList.size(); i++) System.out.println(bookMapList.get(i).toString());
+		bookMapList = bookDAO.selectAllByCondWithOrder(COL_TYPE.STRING, "name", "윤성우", true, COL_TYPE.STRING, "name", ORDER.ASC);
 //		// String, LocalDate
-//		bookMapList = bookDAO.selectAllByCondWithOrder(COL_TYPE.STRING, "name", "윤성우", true, COL_TYPE.LOCAL_DATE, "pubDay", ORDER.ASC);
-//		for(int i = 0; i < bookMapList.size(); i++) System.out.println(bookMapList.get(i).toString());
+		bookMapList = bookDAO.selectAllByCondWithOrder(COL_TYPE.STRING, "name", "윤성우", true, COL_TYPE.LOCAL_DATE, "pubDay", ORDER.ASC);
 //		// String, LocalDateTime
-//		bookMapList = bookDAO.selectAllByCondWithOrder(COL_TYPE.STRING, "name", "윤성우", true, COL_TYPE.LOCAL_DATE_TIME, "brwDay", ORDER.ASC);
-//		for(int i = 0; i < bookMapList.size(); i++) System.out.println(bookMapList.get(i).toString());
+		bookMapList = bookDAO.selectAllByCondWithOrder(COL_TYPE.STRING, "name", "윤성우", true, COL_TYPE.LOCAL_DATE_TIME, "brwDay", ORDER.ASC);
 //		// int, String
-//		bookMapList = bookDAO.selectAllByCondWithOrder(COL_TYPE.INT, "no", 179, false, COL_TYPE.STRING, "name", ORDER.ASC);
-//		for(int i = 0; i < bookMapList.size(); i++) System.out.println(bookMapList.get(i).toString());
+		bookMapList = bookDAO.selectAllByCondWithOrder(COL_TYPE.INT, "no", 179, false, COL_TYPE.STRING, "name", ORDER.ASC);
 //		// LocalDate, String
-//		bookMapList = bookDAO.selectAllByCondWithOrder(COL_TYPE.LOCAL_DATE, "pubDay", "2017-12-18", false, COL_TYPE.STRING, "name", ORDER.ASC);
-//		for(int i = 0; i < bookMapList.size(); i++) System.out.println(bookMapList.get(i).toString());
+		bookMapList = bookDAO.selectAllByCondWithOrder(COL_TYPE.LOCAL_DATE, "pubDay", "2017-12-18", false, COL_TYPE.STRING, "name", ORDER.ASC);
 //		// LocalDateTime, String
-//		bookMapList = bookDAO.selectAllByCondWithOrder(COL_TYPE.LOCAL_DATE_TIME, "brwDay", "2017-12-18 00:17:42.875", false, COL_TYPE.STRING, "name", ORDER.ASC);
-//		for(int i = 0; i < bookMapList.size(); i++) System.out.println(bookMapList.get(i).toString());
+		bookMapList = bookDAO.selectAllByCondWithOrder(COL_TYPE.LOCAL_DATE_TIME, "brwDay", "2017-12-18 00:17:42.875", false, COL_TYPE.STRING, "name", ORDER.ASC);
 		/** Update a Book by PK **/
-//		bookDAO.updateAllByNo(178, editedBook);
+		bookDAO.updateAllByNo(178, editedBook);
 		/** Delete a Book by PK **/
-//		System.out.println("bookDAO.deleteByNo(177): " + bookDAO.deleteByNo(177));
+		bookDAO.deleteByNo(178);
 		
-		
-
 		
 		
 		/** Exit Program **/
-		DbManager.getInstance().getStatement().close();
-		DbManager.getInstance().getConn().close();
+//		DbManager.getInstance().getStatement().close();
+//		DbManager.getInstance().getConn().close();
+		DbManager.getInstance().close();
 	}
 }

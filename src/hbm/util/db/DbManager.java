@@ -23,12 +23,20 @@ public class DbManager {
 		}
 	}
 	
-	// LazyHolder-Singleton
-	public static DbManager getInstance() {
-		return LazyHolder.INSTANCE;
+//	// LazyHolder-Singleton
+//	public static DbManager getInstance() {
+//		return LazyHolder.INSTANCE;
+//	}
+//	private static class LazyHolder {
+//		private static final DbManager INSTANCE = new DbManager();
+//	}
+	
+	// Demand Holder Idiom - Singleton
+	private static class Singleton {
+		private static final DbManager instance = new DbManager();
 	}
-	private static class LazyHolder {
-		private static final DbManager INSTANCE = new DbManager();
+	public static DbManager getInstance() {
+		return Singleton.instance;
 	}
 	
 	// Getter
@@ -40,5 +48,8 @@ public class DbManager {
 	}
 
 	// Public Methods
-	
+	public void close() throws SQLException {
+		this.statement.close();
+		this.connection.close();
+	}
 }

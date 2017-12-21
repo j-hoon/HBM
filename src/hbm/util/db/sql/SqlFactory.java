@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import hbm.book.Book;
+import hbm.util.Debug;
+import hbm.util.Properties;
 
 public class SqlFactory {
 
@@ -18,9 +20,9 @@ public class SqlFactory {
 	public static enum ORDER { ASC, DSC }
 	
 	private final static String INSERT_SQL = "INSERT INTO  VALUES(";	// INSERT INTO _TABLE_ VALUES(_COL_VALUES_);
-	private final static String SELECT_SQL = "SELECT * FROM ";	// SELECT * FROM _TABLE_ WHERE = _COND_ ORDER BY _COL_ _ORDER_;
-	private final static String UPDATE_SQL = "UPDATE  SET ";	// UPDATE _TABLE_ SET COL1 = _COL1_VALUE_, ... WHERE _COND_ = _COND_VALUE_;
-	private final static String DELETE_SQL = "DELETE FROM ";	// DELETE FROM BOOK WHERE no = 158;
+	private final static String SELECT_SQL = "SELECT * FROM ";			// SELECT * FROM _TABLE_ WHERE = _COND_ ORDER BY _COL_ _ORDER_;
+	private final static String UPDATE_SQL = "UPDATE  SET ";			// UPDATE _TABLE_ SET COL1 = _COL1_VALUE_, ... WHERE _COND_ = _COND_VALUE_;
+	private final static String DELETE_SQL = "DELETE FROM ";			// DELETE FROM BOOK WHERE no = 158;
 	
 	private static StringBuffer stringBuffer;
 	
@@ -28,20 +30,22 @@ public class SqlFactory {
 	/*
 	 * Make Insert SQL
 	 */
-	public static String makeInsert(Object obj) {
+	public static <T> String makeInsert(T obj) {
 		stringBuffer = new StringBuffer(INSERT_SQL);
 		
 		if(obj instanceof Book) {
 			Book book = (Book) obj;
 			stringBuffer.insert(12, TABLE_NAME.BOOK.toString());
-//			System.out.println("stringBuffer.toString(): " + stringBuffer.toString());
 			cuAppend(COL_TYPE.ORACLE, "BOOK_NO.NEXTVAL", false);
 			appendAllColsOfBook(CU_METHOD.INSERT, book);
-//			System.out.println("stringBuffer.toString(): " + stringBuffer.toString());
 		}
 		stringBuffer.append(")");
-		
-		System.out.println("stringBuffer.toString(): " + stringBuffer.toString());
+
+		if(Properties.getInstance().isDebugMode()) {
+			Debug.show("============================================================ makeInsert() ============================================================");
+			Debug.show("[VO] " + obj.getClass().getSimpleName() + "-" + obj.toString());
+			Debug.show("[SQL] " + stringBuffer.toString());
+		}
 		return stringBuffer.toString();
 	}
 	
@@ -56,6 +60,11 @@ public class SqlFactory {
 		stringBuffer.append(orderCol.toUpperCase());
 		stringBuffer.append(" ");
 		stringBuffer.append(order.toString());
+		if(Properties.getInstance().isDebugMode()) {
+			Debug.show("========================================================== makeSelectAll() ===========================================================");
+			Debug.show("[Params] " + tableName + ", " + orderCol + ", " + order);
+			Debug.show("[SQL] " + stringBuffer.toString());
+		}
 		return stringBuffer.toString();
 	}
 	
@@ -93,6 +102,11 @@ public class SqlFactory {
 		stringBuffer.append(orderColName.toUpperCase());
 		stringBuffer.append(" ");
 		stringBuffer.append(order.toString());
+		if(Properties.getInstance().isDebugMode()) {
+			Debug.show("=================================================== makeSelectAllByCondWithOrder() ===================================================");
+			Debug.show("[Params] " + tableName + ", " + colType + ", " + colName + ", " + cond + ", " + isLike + ", " + orderColType + ", " + orderColName + ", " + order);
+			Debug.show("[SQL] " + stringBuffer.toString());
+		}
 		return stringBuffer.toString();
 	}
 	
@@ -106,17 +120,19 @@ public class SqlFactory {
 		if(obj instanceof Book) {
 			Book book = (Book) obj;
 			stringBuffer.insert(7, TABLE_NAME.BOOK.toString());
-//			System.out.println("stringBuffer.toString(): " + stringBuffer.toString());
 			appendAllColsOfBook(CU_METHOD.UPDATE, book);
-//			System.out.println("stringBuffer.toString(): " + stringBuffer.toString());
 		}
 		
 		stringBuffer.append(" WHERE ");
 		stringBuffer.append(colName.toUpperCase());
 		stringBuffer.append(" = ");
 		stringBuffer.append(colNo);
-		
-//		System.out.println("stringBuffer.toString(): " + stringBuffer.toString());
+
+		if(Properties.getInstance().isDebugMode()) {
+			Debug.show("======================================================== makeUpdateAllByInt() ========================================================");
+			Debug.show("[Params] " + tableName + ", " + colName + ", " + colNo + ", " + obj);
+			Debug.show("[SQL] " + stringBuffer.toString());
+		}
 		return stringBuffer.toString();
 	}
 	// TODO: how to make various update SQL
@@ -132,6 +148,12 @@ public class SqlFactory {
 		stringBuffer.append(colName);
 		stringBuffer.append(" = ");
 		stringBuffer.append(colNo);
+
+		if(Properties.getInstance().isDebugMode()) {
+			Debug.show("========================================================= makeDeleteByInt() ==========================================================");
+			Debug.show("[Params] " + tableName + ", " + colName + ", " + colNo);
+			Debug.show("[SQL] " + stringBuffer.toString());
+		}
 		return stringBuffer.toString();
 	}
 	
