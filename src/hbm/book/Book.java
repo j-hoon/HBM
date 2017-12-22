@@ -8,15 +8,15 @@ import com.sun.istack.internal.NotNull;
 public class Book {
 	
 	// Members
-	@NotNull private int no;		// 등록 번호				PK					(00000000)
-	@NotNull private int symbol;	// 청구 기호									(000.000-000)
+	@NotNull private int no;		// 등록 번호			PK					(00000000)
+	@NotNull private int symbol;	// 청구 기호								(000.000-000)
 	@NotNull private String name;	// 도서 명
 	@NotNull private String author;	// 저자
 	@NotNull private int price;		// 가격										(-1은 알 수 없음)
 	
 	private String pub;				// 출판사				(publisher)
 	private LocalDate pubDay;		// 출판일				(publication day)
-	private String loc;				// 도서 위치				(location)
+	private String loc;				// 도서 위치			(location)
 	private String imgFile;			// 도서 이미지 파일 명	
 	
 	private String brwer;			// 대여자				(borrower)			(TODO int형 user_no 고려)
@@ -104,13 +104,13 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "[num: " + this.no + ", symbol: " + symbol + ", name: " + this.name + ", author: " + this.author + ", price: " +this.price +
+		return "[no: " + this.no + ", symbol: " + this.symbol + ", name: " + this.name + ", author: " + this.author + ", price: " +this.price +
 				", pub: " + this.pub + ", pubDay: " + this.pubDay + ", loc: " + this.loc + ", imgFile: " + this.imgFile +
 				", brwer: " + this.brwer + ", brwDay: " + this.brwDay + ", period: " + this.period + "]";
 	}
 	
 	
-	// Getter and Setter
+	// Default Getter and Setter
 	public int getNo() {
 		return no;
 	}

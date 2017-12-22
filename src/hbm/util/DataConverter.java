@@ -26,31 +26,38 @@ public class DataConverter {
 	/*
 	 * Convert SQL-ResultSet to List<Map<String, Object>>
 	 */
-	public static List<Map<String, Object>> convResultSetToMapList(ResultSet resultset) throws SQLException {
-		ResultSetMetaData resultSetMetaData = resultset.getMetaData();
-	    int columnCnt = resultSetMetaData.getColumnCount();
-	    List<Map<String, Object>> list = new ArrayList<>();
-	    while(resultset.next()) {
-	        Map<String, Object> row = new HashMap<>(columnCnt);
-	        for(int i = 1; i <= columnCnt; ++i) {
-	            row.put(resultSetMetaData.getColumnName(i), resultset.getObject(i));
-	            // debug
-//	            System.out.print("[resultSetMetaData] colName("+i+"): " + resultSetMetaData.getColumnName(i) + ", getObj: " + resultset.getObject(i));
-//	            if(resultset.getObject(i) != null)
-//	            	System.out.println(", getClass: " + resultset.getObject(i).getClass());
-//	            else
-//	            	System.out.println();
-	        }
-	        list.add(row);
-	    }
-	    // Debug
-		if(Properties.getInstance().isDebugMode()) {
-			Debug.show("[Ret List<Map>]");
-			try {
-				Debug.showListToTable(list);
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
+	public static List<Map<String, Object>> convResultSetToMapList(ResultSet resultset) {
+		ResultSetMetaData resultSetMetaData = null;
+		List<Map<String, Object>> list = null;
+		try {
+			resultSetMetaData = resultset.getMetaData();
+
+		    int columnCnt = resultSetMetaData.getColumnCount();
+		    list = new ArrayList<>();
+		    while(resultset.next()) {
+		        Map<String, Object> row = new HashMap<>(columnCnt);
+		        for(int i = 1; i <= columnCnt; ++i) {
+		            row.put(resultSetMetaData.getColumnName(i), resultset.getObject(i));
+		            // debug
+//		            System.out.print("[resultSetMetaData] colName("+i+"): " + resultSetMetaData.getColumnName(i) + ", getObj: " + resultset.getObject(i));
+//		            if(resultset.getObject(i) != null)
+//		            	System.out.println(", getClass: " + resultset.getObject(i).getClass());
+//		            else
+//		            	System.out.println();
+		        }
+		        list.add(row);
+		    }
+		    // Debug
+			if(Properties.getInstance().isDebugMode()) {
+				Debug.show("[Ret List<Map>]");
+				try {
+					Debug.showListToTable(list);
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	    return list;
 	}

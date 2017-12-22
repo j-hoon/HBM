@@ -20,11 +20,12 @@ public class SqlFactory {
 	public static enum ORDER { ASC, DSC }
 	
 	private final static String INSERT_SQL = "INSERT INTO  VALUES(";	// INSERT INTO _TABLE_ VALUES(_COL_VALUES_);
+//	private final static String SELECT_SQL = "SELECT * FROM ";			// SELECT * FROM _TABLE_ WHERE = _COND_ ORDER BY _COL_ _ORDER_;
 	private final static String SELECT_SQL = "SELECT * FROM ";			// SELECT * FROM _TABLE_ WHERE = _COND_ ORDER BY _COL_ _ORDER_;
 	private final static String UPDATE_SQL = "UPDATE  SET ";			// UPDATE _TABLE_ SET COL1 = _COL1_VALUE_, ... WHERE _COND_ = _COND_VALUE_;
 	private final static String DELETE_SQL = "DELETE FROM ";			// DELETE FROM BOOK WHERE no = 158;
 	
-	private static StringBuffer stringBuffer;
+	private static StringBuffer stringBuffer = null;
 	
 	/***** INSERT *****/
 	/*
@@ -54,17 +55,49 @@ public class SqlFactory {
 	 * Make Select All SQL
 	 */
 	public static String makeSelectAll(TABLE_NAME tableName, String orderCol, ORDER order) {
+		// "SELECT * FROM _TABLE_ ORDER BY _ORDER_COL_ _ORDER_"
 		stringBuffer = new StringBuffer(SELECT_SQL);
-		stringBuffer.append(tableName.toString());
-		stringBuffer.append(" ORDER BY ");
-		stringBuffer.append(orderCol.toUpperCase());
-		stringBuffer.append(" ");
-		stringBuffer.append(order.toString());
+		stringBuffer.append(tableName.toString())
+					.append(" ORDER BY ")
+					.append(orderCol.toUpperCase())
+					.append(" ")
+					.append(order.toString());
+		
 		if(Properties.getInstance().isDebugMode()) {
 			Debug.show("========================================================== makeSelectAll() ===========================================================");
 			Debug.show("[Params] " + tableName + ", " + orderCol + ", " + order);
 			Debug.show("[SQL] " + stringBuffer.toString());
 		}
+		
+		return stringBuffer.toString();
+	}
+	
+	/*
+	 * Make Select All by Condition SQL (TODO: 대소비교 기능 추가)
+	 */
+	public static <T> String makeSelectAllByCond(TABLE_NAME tableName, String condColName, boolean isLike, String orderCol, ORDER order) {
+		// "SELECT * FROM _TABLE_ WHERE _COND_COL_ _EQ_OR_LIKE_ _COND_ ORDER BY _ORDER_COL_ _ORDER_"
+		// "SELECT * FROM BOOK WHERE _COND_COL_ _EQ_OR_LIKE_ _COND_ ORDER BY _ORDER_COL_ _ORDER_"
+		stringBuffer = new StringBuffer(SELECT_SQL);
+		stringBuffer.append(tableName.toString())
+					.append(" WHERE ")
+					.append(condColName.toUpperCase());
+		if(isLike)
+			stringBuffer.append(" LIKE ?");
+		else
+			stringBuffer.append(" = ?");
+					
+		stringBuffer.append(" ORDER BY ")
+					.append(orderCol.toUpperCase())
+					.append(" ")
+					.append(order.toString());
+
+		if(Properties.getInstance().isDebugMode()) {
+			Debug.show("========================================================== makeSelectAll() ===========================================================");
+			Debug.show("[Params] " + tableName + ", " + condColName + ", " + isLike + ", " + orderCol + ", " + order);
+			Debug.show("[SQL] " + stringBuffer.toString());
+		}
+		
 		return stringBuffer.toString();
 	}
 	
