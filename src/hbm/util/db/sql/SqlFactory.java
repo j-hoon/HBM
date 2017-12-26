@@ -8,6 +8,8 @@ import java.time.LocalTime;
 import hbm.book.Book;
 import hbm.util.Debug;
 import hbm.util.Properties;
+import hbm.util.db.sql.Condition.COND_INT_SINGLE;
+import hbm.util.db.sql.Condition.*;
 
 public class SqlFactory {
 
@@ -75,26 +77,35 @@ public class SqlFactory {
 	/*
 	 * Make Select All by Condition SQL (TODO: 대소비교 기능 추가)
 	 */
-	public static <T> String makeSelectAllByCond(TABLE_NAME tableName, String condColName, boolean isLike, String orderCol, ORDER order) {
-		// "SELECT * FROM _TABLE_ WHERE _COND_COL_ _EQ_OR_LIKE_ _COND_ ORDER BY _ORDER_COL_ _ORDER_"
-		// "SELECT * FROM BOOK WHERE _COND_COL_ _EQ_OR_LIKE_ _COND_ ORDER BY _ORDER_COL_ _ORDER_"
+	public static <T> String makeSelectAllByCond(TABLE_NAME tableName, Condition<T> cond, String orderCol, ORDER order) {
+		// common (=)
+		// "SELECT * FROM _TABLE_ WHERE (_COND_COL_ = _COND_VALUE_) ORDER BY _ORDER_COL_ _ORDER_"
+		// int (<, >, <=, >=)
+		// "SELECT * FROM _TABLE_ WHERE (_COND_COL_ _COND_ _COND_VALUE_) ORDER BY _ORDER_COL_ _ORDER_"
+		// "SELECT * FROM _TABLE_ WHERE (_COND_VALUE1_ _COND1_ _COND_COL_ AND _COND_VALUE2_ _COND2_ _COND_COL_) ORDER BY _ORDER_COL_ _ORDER_"
+		// String (LIKE)
+		// "SELECT * FROM _TABLE_ WHERE (_COND_COL_ LIKE _COND_VALUE_) ORDER BY _ORDER_COL_ _ORDER_"
+		// LocalDate, LocalDateTime
+		// "SELECT * FROM _TABLE_ WHERE (_COND_COL_ BETWEEN _COND_VALUE1_ AND _COND_VALUE2_) ORDER BY _ORDER_COL_ _ORDER_"
+		// char
+		// 
 		stringBuffer = new StringBuffer(SELECT_SQL);
 		stringBuffer.append(tableName.toString())
-					.append(" WHERE ")
-					.append(condColName.toUpperCase());
-		if(isLike)
-			stringBuffer.append(" LIKE ?");
-		else
-			stringBuffer.append(" = ?");
-					
+					.append(" WHERE ");
+		
+		// append Condition Method
+		stringBuffer.append(cond.getCondStr());
+		
+		// append Order
 		stringBuffer.append(" ORDER BY ")
 					.append(orderCol.toUpperCase())
 					.append(" ")
 					.append(order.toString());
 
 		if(Properties.getInstance().isDebugMode()) {
-			Debug.show("========================================================== makeSelectAll() ===========================================================");
-			Debug.show("[Params] " + tableName + ", " + condColName + ", " + isLike + ", " + orderCol + ", " + order);
+			Debug.show("======================================================= makeSelectAllByCond() ========================================================");
+			Debug.show("[Params] " + tableName + " | " + cond.getCondColName() + " | " + cond.getCond() + " | " + cond.getVal1() + " | " + cond.getVal2() +
+					" | " + orderCol + " | " + order);
 			Debug.show("[SQL] " + stringBuffer.toString());
 		}
 		

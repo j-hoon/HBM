@@ -2,7 +2,7 @@ SELECT * FROM BOOK WHERE PRICE LIKE '' ORDER BY NO ASC;
 
 SELECT * FROM BOOK WHERE BRWDAY LIKE '%17/12/20 22:49%' ORDER BY NO ASC;
 
--- int, Integer (INT)
+-- int, Integer (INT) ----------------------------------------------------------
 SELECT * FROM BOOK WHERE PRICE = 35000 ORDER BY NO ASC;
 SELECT * FROM BOOK WHERE PRICE = 111 ORDER BY NO ASC;
 SELECT * FROM BOOK WHERE PRICE = -1 ORDER BY NO ASC;
@@ -17,13 +17,30 @@ SELECT * FROM BOOK WHERE 110 < PRICE AND PRICE < 35001 ORDER BY NO ASC;
 SELECT * FROM BOOK WHERE -1 <= PRICE AND PRICE <= 34999 ORDER BY NO ASC;
 --------------------------------------------------------------------------------
 
-
-
--- Date (LocalDate)
-SELECT * FROM BOOK WHERE PERIOD = '2017-12-16' ORDER BY NO ASC;
-SELECT * FROM BOOK WHERE PERIOD BETWEEN '2017-12-16' AND '2017-12-18' ORDER BY NO ASC;  -- 해당 기간의 모든 데이터
-SELECT * FROM BOOK WHERE PERIOD BETWEEN '2017-12-16' AND '2017-12-16' ORDER BY NO ASC;  -- 해당 일의 모든 데이터
-SELECT * FROM BOOK WHERE PERIOD BETWEEN '2017-12-01' AND '2017-12-31' ORDER BY NO ASC;  -- 해당 월의 모든 데이터
-SELECT * FROM BOOK WHERE PERIOD BETWEEN '2017-01-01' AND '2017-12-31' ORDER BY NO ASC;  -- 해당 년의 모든 데이터
+-- String (VARCHAR) ------------------------------------------------------------
+SELECT * FROM BOOK WHERE NAME = '윤성우의 열혈 Java 프로그래밍' ORDER BY NO ASC;
+SELECT * FROM BOOK WHERE NAME LIKE 'Java' ORDER BY NO ASC;
+SELECT * FROM BOOK WHERE NAME LIKE '%Java%' ORDER BY NO ASC;
+SELECT * FROM BOOK WHERE NAME LIKE '%윤성우%' ORDER BY NO ASC;
 --------------------------------------------------------------------------------
+
+-- LocalDate (Date) ------------------------------------------------------------
+SELECT * FROM BOOK WHERE PERIOD = '2017-12-16' ORDER BY NO ASC;
+
+SELECT LAST_DAY('2017-02-02') FROM DUAL;  -- 해당 월의 마지막 날짜
+SELECT TO_CHAR(TO_DATE('2017-02-02'), 'YYYY') || '-12-31' AS LAST_DAY_OF_YEAR FROM DUAL;  -- 해당 년의 마지막 날짜
+
+SELECT * FROM BOOK WHERE PERIOD BETWEEN '2017-12-01' AND LAST_DAY('2017-12-01') ORDER BY NO ASC;  -- 해당 월의 모든 데이터 (쿼리 기반으로 수정됨)
+SELECT * FROM BOOK WHERE PERIOD BETWEEN '2017-01-01' AND TO_CHAR(TO_DATE('2017-01-01'), 'YYYY') || '-12-31' ORDER BY NO ASC;  -- 해당 년의 모든 데이터 (쿼리 기반으로 수정됨)
+
+
+SELECT * FROM BOOK WHERE PERIOD BETWEEN '2017-12-01' AND '2017-12-31' ORDER BY NO ASC;  -- 해당 월의 모든 데이터
+SELECT * FROM BOOK WHERE PERIOD BETWEEN '2017-12-01' AND LAST_DAY('2017-12-01') ORDER BY NO ASC;  -- 해당 월의 모든 데이터
+SELECT * FROM BOOK WHERE PERIOD BETWEEN '2017-01-01' AND '2017-12-31' ORDER BY NO ASC;  -- 해당 년의 모든 데이터
+SELECT * FROM BOOK WHERE PERIOD BETWEEN '2017-12-16' AND '2017-12-18' ORDER BY NO ASC;  -- 해당 기간의 모든 데이터
+
+SELECT * FROM BOOK WHERE PERIOD <= '2017-12-18' ORDER BY NO ASC;  -- 해당 일 포함 이전 검색 (~까지)
+SELECT * FROM BOOK WHERE PERIOD >= '2017-12-16' ORDER BY NO ASC;  -- 해당 일 포함 이후 검색 (~부터)
+--------------------------------------------------------------------------------
+
 

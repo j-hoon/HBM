@@ -52,11 +52,13 @@ public class BookDAO {
 	// Select Only One Book - useless?
 	
 	// Select Books by Book.anyAttr Condition with Order
-	public <T> List<Map<String, Object>> selectAllByCond(String condColName, boolean isLike, T condValue, String orderColName, ORDER order) {
+	public <T> List<Map<String, Object>> selectAllByCond(Condition<T> cond, String orderColName, ORDER order) {
 //	public <T> List<Map<String, Object>> selectAllByCond(COL_TYPE condColType, String condColName, T condValue, boolean isLike,
 //			COL_TYPE orderColType, String orderColName, ORDER order) throws SQLException {
 //		String sql = SqlFactory.makeSelectAllByCondWithOrder(TABLE_NAME.BOOK, condColType, condColName, condValue, isLike, orderColType, orderColName, order);
-		List<Map<String, Object>> list = dbManager.executeSelectByCond(TABLE_NAME.BOOK, condColName, isLike, condValue, orderColName, ORDER.ASC);
+
+//		List<Map<String, Object>> list = dbManager.executeSelectByCond(TABLE_NAME.BOOK, condColName, isLike, condValue, orderColName, ORDER.ASC);
+		List<Map<String, Object>> list = dbManager.executeSelectByCond(TABLE_NAME.BOOK, cond, orderColName, ORDER.ASC);
 		
 		return null;
 	}

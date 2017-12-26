@@ -14,6 +14,11 @@ public class Debug {
 		System.out.println(str);
 	}
 	
+	// Error show
+	public static void error(String str) {
+		System.err.println(str);
+	}
+	
 	/*
 	 * Show List to DB-Table
 	 */

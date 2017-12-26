@@ -16,6 +16,10 @@ import java.util.Vector;
 
 import hbm.book.Book;
 import hbm.util.DataConverter;
+import hbm.util.Debug;
+import hbm.util.db.sql.Condition;
+import hbm.util.db.sql.Condition.COND_INT_SINGLE;
+import hbm.util.db.sql.Condition.*;
 import hbm.util.db.sql.SqlFactory;
 import hbm.util.db.sql.SqlFactory.ORDER;
 import hbm.util.db.sql.SqlFactory.TABLE_NAME;
@@ -152,30 +156,41 @@ public class DBConnectionPoolManager {
 	/**
 	 * @param
 	 */
-	public <T> List<Map<String, Object>> executeSelectByCond(TABLE_NAME tableName, String condColName, boolean isLike, T condValue, String orderCol, ORDER order) {
+	public <T> List<Map<String, Object>> executeSelectByCond(TABLE_NAME tableName, Condition<T> cond, String orderCol, ORDER order) {
 		Connection conn = getConnection(DBConnectionPool.name);
 		ResultSet resultSet = null;
 		List<Map<String, Object>> list = null;
-		String sql = SqlFactory.makeSelectAllByCond(tableName, condColName, isLike, orderCol, order);
-		System.out.println("condValue: " + condValue + ", condValue.getClass(): " + condValue.getClass());
+		String sql = SqlFactory.makeSelectAllByCond(tableName, cond, orderCol, order);
+		Debug.show("[Values] " + cond.getVal1() + " | " + cond.getVal2());
+//		System.out.println("cond.getCondColName(): " + cond.getCondColName() + " | cond.getMethod: " + cond.getCond() + cond.get", cond.getVal1(): " + cond.getVal1() + ", cond.getVal2(): " + cond.getVal2());
 		
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			if(isLike) {
-				if(condValue instanceof Integer || condValue instanceof LocalDate || condValue instanceof LocalDateTime) {
-					System.out.println(condValue.getClass().getSimpleName() + "형 열 조건에 'LIKE'를 사용할 수 없습니다.");	// TODO: 년, 월, 일, 시, 분, 초 단위로 검색 기능
-					return null;
-				} else if(condValue instanceof String)
-					pstmt.setString(1, "%"+condValue+"%");
-				else
-					pstmt.setObject(1, condValue);
-			} else {
-				if(condValue instanceof LocalDate)
-					pstmt.setDate(1, Date.valueOf((LocalDate) condValue));
-				else if(condValue instanceof LocalDateTime)
-					pstmt.setTimestamp(1, Timestamp.valueOf((LocalDateTime) condValue));
-				else
-					pstmt.setObject(1, condValue);
+			/** PreparedStatement ? 인자 삽입 **/
+			// Single Condition
+			if(cond.getCond() instanceof COND_INT_SINGLE)
+				pstmt.setInt(1, (int) cond.getVal1());
+			else if(cond.getCond() instanceof COND_STRING_SINGLE)
+				pstmt.setString(1, cond.getVal1().toString());
+			else if(cond.getCond() instanceof COND_LOCALDATE_SINGLE) {
+				if(((COND_LOCALDATE_SINGLE) cond.getCond()).equals(COND_LOCALDATE_SINGLE.MONTH_IN) ||
+						((COND_LOCALDATE_SINGLE) cond.getCond()).equals(COND_LOCALDATE_SINGLE.YEAR_IN)) {
+					pstmt.setDate(1, Date.valueOf((LocalDate) cond.getVal1()));
+					pstmt.setDate(2, Date.valueOf((LocalDate) cond.getVal1()));
+				} else
+					pstmt.setDate(1, Date.valueOf((LocalDate) cond.getVal1()));	
+			} else if(cond.getCond() instanceof COND_LOCALDATETIME_SINGLE) {
+				
+				pstmt.setTimestamp(1,  Timestamp.valueOf((LocalDateTime) cond.getVal1());
 			}
+			else {
+				
+			}
+			// Multi Condition
+//			if() {
+//				
+//			}
+			
+			
 //			this.setColumn(1);
 
 			resultSet = pstmt.executeQuery();
