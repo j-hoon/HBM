@@ -14,15 +14,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import hbm.book.Book;
 import hbm.util.DataConverter;
 import hbm.util.Debug;
 import hbm.util.db.sql.Condition;
-import hbm.util.db.sql.Condition.COND_INT_SINGLE;
 import hbm.util.db.sql.Condition.*;
+import hbm.util.db.sql.Order;
 import hbm.util.db.sql.SqlFactory;
-import hbm.util.db.sql.SqlFactory.ORDER;
-import hbm.util.db.sql.SqlFactory.TABLE_NAME;
+import hbm.util.db.sql.SqlFactory.*;
 
 public class DBConnectionPoolManager {
 	
@@ -110,6 +108,7 @@ public class DBConnectionPoolManager {
 	}
 	
 	
+	// TODO: 아래 메소드로 정적 SQL과 동적 SQL 시간 성능 비교 (SELECT)
 	/*
 	 * @param String sql : SQL to execute (only SELECT)  
 	 * @return List<Map<String, Object>> : result of query (ResultSet to List)
@@ -133,44 +132,69 @@ public class DBConnectionPoolManager {
 		
 		return list;
 	}
-
+	
 	/**
-	 * @param
+	 * 
+	 * @param 
+	 * @return 
 	 */
-	public List<Map<String, Object>> executeSelect(TABLE_NAME tableName, String orderCol, ORDER order) {
+	public int executeInsert(TABLE_NAME tableName, Object obj) {
 		Connection conn = getConnection(DBConnectionPool.name);
-		List<Map<String, Object>> list = null;
-		String sql = SqlFactory.makeSelectAll(tableName, orderCol, order);
+		int ret = -1;
+		String sql = SqlFactory.makeInsert(tableName, obj);
 		
-		try (PreparedStatement pstmt = conn.prepareStatement(sql) ; ResultSet resultSet = pstmt.executeQuery()) {
-			list = DataConverter.convResultSetToMapList(resultSet);
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			 ret = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			freeConnection(DBConnectionPool.name, conn);
 		}
+		return ret;
+	}
+
+	/**
+	 * 
+	 * @param 
+	 * @return 
+	 */
+	public List<Map<String, Object>> executeSelect(TABLE_NAME tableName, Order order) {
+		Connection conn = getConnection(DBConnectionPool.name);
+		List<Map<String, Object>> ret = null;
+		String sql = SqlFactory.makeSelectAll(tableName, order);
 		
-		return list;
+		try (PreparedStatement pstmt = conn.prepareStatement(sql) ; ResultSet resultSet = pstmt.executeQuery()) {
+			ret = DataConverter.convResultSetToMapList(resultSet);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			freeConnection(DBConnectionPool.name, conn);
+		}
+		return ret;
 	}
 	
 	/**
-	 * @param
+	 * 
+	 * @param 
+	 * @return 
 	 */
-	public <T> List<Map<String, Object>> executeSelectByCond(TABLE_NAME tableName, Condition<T> cond, String orderCol, ORDER order) {
+	public <T> List<Map<String, Object>> executeSelectByCond(TABLE_NAME tableName, Condition<T> cond, Order order) {
 		Connection conn = getConnection(DBConnectionPool.name);
 		ResultSet resultSet = null;
-		List<Map<String, Object>> list = null;
-		String sql = SqlFactory.makeSelectAllByCond(tableName, cond, orderCol, order);
+		List<Map<String, Object>> ret = null;
+		String sql = SqlFactory.makeSelectAllByCond(tableName, cond, order);
 		Debug.show("[Values] " + cond.getVal1() + " | " + cond.getVal2());
-//		System.out.println("cond.getCondColName(): " + cond.getCondColName() + " | cond.getMethod: " + cond.getCond() + cond.get", cond.getVal1(): " + cond.getVal1() + ", cond.getVal2(): " + cond.getVal2());
 		
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			/** PreparedStatement ? 인자 삽입 **/
-			// Single Condition
+			/***** PreparedStatement 인자 삽입 *****/
+			/** Single Condition **/
+			// int
 			if(cond.getCond() instanceof COND_INT_SINGLE)
 				pstmt.setInt(1, (int) cond.getVal1());
+			// String
 			else if(cond.getCond() instanceof COND_STRING_SINGLE)
 				pstmt.setString(1, cond.getVal1().toString());
+			// LocalDate
 			else if(cond.getCond() instanceof COND_LOCALDATE_SINGLE) {
 				if(((COND_LOCALDATE_SINGLE) cond.getCond()).equals(COND_LOCALDATE_SINGLE.MONTH_IN) ||
 						((COND_LOCALDATE_SINGLE) cond.getCond()).equals(COND_LOCALDATE_SINGLE.YEAR_IN)) {
@@ -178,23 +202,62 @@ public class DBConnectionPoolManager {
 					pstmt.setDate(2, Date.valueOf((LocalDate) cond.getVal1()));
 				} else
 					pstmt.setDate(1, Date.valueOf((LocalDate) cond.getVal1()));	
-			} else if(cond.getCond() instanceof COND_LOCALDATETIME_SINGLE) {
-				
-				pstmt.setTimestamp(1,  Timestamp.valueOf((LocalDateTime) cond.getVal1());
 			}
-			else {
-				
+			// LocalDateTime
+			else if(cond.getCond() instanceof COND_LOCALDATETIME_SINGLE) {
+				if(((COND_LOCALDATETIME_SINGLE) cond.getCond()).equals(COND_LOCALDATETIME_SINGLE.SEC_IN)) {
+					pstmt.setTimestamp(1, Timestamp.valueOf(((LocalDateTime) cond.getVal1())
+							.withNano(0)));
+					pstmt.setTimestamp(2, Timestamp.valueOf(((LocalDateTime) cond.getVal1())
+							.withNano(0)
+							.plusNanos(999999999)));
+				} else if(((COND_LOCALDATETIME_SINGLE) cond.getCond()).equals(COND_LOCALDATETIME_SINGLE.MIN_IN)) {
+					pstmt.setTimestamp(1, Timestamp.valueOf(((LocalDateTime) cond.getVal1())
+							.withSecond(0).withNano(0)));
+					pstmt.setTimestamp(2, Timestamp.valueOf(((LocalDateTime) cond.getVal1())
+							.withSecond(0).withNano(0)
+							.plusSeconds(59).plusNanos(999999999)));
+				} else if(((COND_LOCALDATETIME_SINGLE) cond.getCond()).equals(COND_LOCALDATETIME_SINGLE.HOUR_IN)) {
+					pstmt.setTimestamp(1, Timestamp.valueOf(((LocalDateTime) cond.getVal1())
+							.withMinute(0).withSecond(0).withNano(0)));
+					pstmt.setTimestamp(2, Timestamp.valueOf(((LocalDateTime) cond.getVal1())
+							.withMinute(0).withSecond(0).withNano(0)
+							.plusMinutes(59).plusSeconds(59).plusNanos(999999999)));
+				} else if(((COND_LOCALDATETIME_SINGLE) cond.getCond()).equals(COND_LOCALDATETIME_SINGLE.DAY_IN)) {
+					pstmt.setDate(1, Date.valueOf(((LocalDateTime) cond.getVal1()).toLocalDate()));
+					pstmt.setDate(2, Date.valueOf(((LocalDateTime) cond.getVal1()).toLocalDate()));
+				} else if(((COND_LOCALDATETIME_SINGLE) cond.getCond()).equals(COND_LOCALDATETIME_SINGLE.MONTH_IN)) {
+					pstmt.setDate(1, Date.valueOf(((LocalDateTime) cond.getVal1()).toLocalDate()
+							.withDayOfMonth(1)));
+					pstmt.setDate(2, Date.valueOf(((LocalDateTime) cond.getVal1()).toLocalDate()));
+				} else if(((COND_LOCALDATETIME_SINGLE) cond.getCond()).equals(COND_LOCALDATETIME_SINGLE.YEAR_IN)) {
+					pstmt.setDate(1, Date.valueOf(((LocalDateTime) cond.getVal1()).toLocalDate()
+							.withMonth(1).withDayOfMonth(1)));
+					pstmt.setDate(2, Date.valueOf(((LocalDateTime) cond.getVal1()).toLocalDate()));
+				} else {
+					pstmt.setTimestamp(1, Timestamp.valueOf((LocalDateTime) cond.getVal1()));
+				}
 			}
-			// Multi Condition
-//			if() {
-//				
-//			}
-			
-			
-//			this.setColumn(1);
+			/** Multi Condition **/
+			// int
+			else if(cond.getCond() instanceof COND_INT_MULTI) {
+				pstmt.setInt(1, (int) cond.getVal1());
+				pstmt.setInt(2, (int) cond.getVal2());
+			}
+			// LocalDate
+			else if(cond.getCond() instanceof COND_LOCALDATE_MULTI) {
+				pstmt.setDate(1, Date.valueOf((LocalDate) cond.getVal1()));
+				pstmt.setDate(2, Date.valueOf((LocalDate) cond.getVal2()));
+			}
+			// LocalDateTime
+			else if(cond.getCond() instanceof COND_LOCALDATETIME_MULTI) {
+				pstmt.setTimestamp(1, Timestamp.valueOf((LocalDateTime) cond.getVal1()));
+				pstmt.setTimestamp(2, Timestamp.valueOf((LocalDateTime) cond.getVal2()));
+			}
+			// 
 
 			resultSet = pstmt.executeQuery();
-			list = DataConverter.convResultSetToMapList(resultSet);
+			ret = DataConverter.convResultSetToMapList(resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -207,8 +270,7 @@ public class DBConnectionPoolManager {
 			}
 			freeConnection(DBConnectionPool.name, conn);
 		}
-		
-		return list;
+		return ret;
 	}
 
 }

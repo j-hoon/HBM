@@ -2,8 +2,9 @@ package hbm.util;
 
 
 public class Properties {
-	
+
 	private final boolean isDebugMode = true;
+//	private final boolean isHardDebugMode = true;
 	
 	private Properties() {
 		

@@ -1,14 +1,8 @@
 package hbm;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,18 +12,15 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import hbm.book.Book;
 import hbm.book.BookDAO;
-import hbm.dao.TestTableDAO;
 import hbm.gui.GuiManager;
 import hbm.util.DataConverter;
 import hbm.util.db.DbManager;
-import hbm.util.db.pool.DBConnectionPoolManager;
 import hbm.util.db.sql.Condition;
 import hbm.util.db.sql.Condition.*;
-import hbm.util.db.sql.SqlFactory.*;
+import hbm.util.db.sql.Order;
+import hbm.util.db.sql.Order.ORDER;
 import hbm.visitor.Visitor;
-import hbm.vo.TestTable;
 
-//import hbm.util.db.sql.SqlFactory.COL_TYPE;
 
 public class Hbm {
 	
@@ -47,19 +38,19 @@ public class Hbm {
 //			System.out.println("lookAndFeelInfo: " + i.getName() + ", " + i.getClassName());
 //		UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 		
+		
 		/***** VisitorDAO test *****/
 		Visitor v1 = new Visitor();
 		Visitor v2 = new Visitor(1, '3', "test1", "1234", "김철수", 910301, "test@naver.com", 1012345678);
 		Visitor v3 = new Visitor(2, '3', "test2", "4567", "박영희", 930920, "test@gmail.com", 1045678901, "pyh.jpg", 515017619, "부산시 남구 대연동", "부경대학교", "컴퓨터공학과");
 		System.out.println(v1 + "\n" + v2 + "\n" + v3 + "\n");
-		//---- VisitorDAO test *****/
+		//---- VisitorDAO test -----/
 		
-		
-		BookDAO bookDAO = new BookDAO();
-		List<Map<String, Object>> bookMapList;
-//		bookMapList = bookDAO.selectAll();
 
-		// TODO: test Condition<T>
+		/***** All Condition<T> test *****/
+//		BookDAO bookDAO = new BookDAO();
+//		List<Map<String, Object>> bookMapList;
+//		bookMapList = bookDAO.selectAll();
 		// Single Condition
 		// int
 //		Condition<Integer> ci1 = Condition.of("price", COND_INT_SINGLE.EQ, 35000);
@@ -97,37 +88,83 @@ public class Hbm {
 //		bookMapList = bookDAO.selectAllByCond(cld4, "no", ORDER.ASC);
 //		bookMapList = bookDAO.selectAllByCond(cld5, "no", ORDER.ASC);
 		// LocalDateTime
-		// 해당 시각 검색 (무의미)
-		// 해당 초 검색 (무의미?)
-//		Condition<LocalDate> cldt1 = Condition.of("brwDay", COND_LOCALDATETIME_SINGLE.EQ, LocalDate.of());
-		// 해당 분 검색 (무의미?)
-//		Condition<LocalDate> cldt2 = Condition.of("brwDay", COND_LOCALDATETIME_SINGLE.EQ, LocalDate.of());
-		// 해당 시 검색
-		Condition<LocalDate> cldt3 = Condition.of("brwDay", COND_LOCALDATETIME_SINGLE.EQ, LocalDate.of());
-		// 해당 일 검색
-		Condition<LocalDate> cldt4 = Condition.of("brwDay", COND_LOCALDATETIME_SINGLE.EQ, LocalDate.of());
-		// 해당 월 검색
-		// 해당 년 검색
-		// 해당 시각 까지 검색 (기준 어떻게? - 초)
-		// 해당 시각 부터 검색 (기준 어떻게? - 초)
+//		// 해당 시각 검색 (무의미)
+//		// 해당 초 검색 (무의미?)
+//		Condition<LocalDateTime> cldt1 = Condition.of("brwDay", COND_LOCALDATETIME_SINGLE.SEC_IN, LocalDateTime.of(2017, 12, 20, 19, 47, 18));
+//		// 해당 분 검색 (무의미?)
+//		Condition<LocalDateTime> cldt2 = Condition.of("brwDay", COND_LOCALDATETIME_SINGLE.MIN_IN, LocalDateTime.of(2017, 12, 20, 19, 48));
+//		// 해당 시 검색
+//		Condition<LocalDateTime> cldt3 = Condition.of("brwDay", COND_LOCALDATETIME_SINGLE.HOUR_IN, LocalDateTime.of(2017, 12, 20, 19, 0));
+//		// 해당 일 검색
+//		Condition<LocalDateTime> cldt4 = Condition.of("brwDay", COND_LOCALDATETIME_SINGLE.DAY_IN, LocalDateTime.of(2017, 12, 20, 0, 0));
+//		// 해당 월 검색
+//		Condition<LocalDateTime> cldt5 = Condition.of("brwDay", COND_LOCALDATETIME_SINGLE.MONTH_IN, LocalDateTime.of(2017, 12, 10, 0, 0));
+//		// 해당 년 검색
+//		Condition<LocalDateTime> cldt6 = Condition.of("brwDay", COND_LOCALDATETIME_SINGLE.YEAR_IN, LocalDateTime.of(2017, 1, 1, 0, 0));
+//		// 해당 일 까지 검색
+//		Condition<LocalDateTime> cldt7 = Condition.of("brwDay", COND_LOCALDATETIME_SINGLE.BEFORE, LocalDateTime.of(2017, 12, 20, 19, 47, 18));
+//		// 해당 일 부터 검색
+//		Condition<LocalDateTime> cldt8 = Condition.of("brwDay", COND_LOCALDATETIME_SINGLE.AFTER, LocalDateTime.of(2017, 12, 20, 19, 47, 18));
+//		bookMapList = bookDAO.selectAllByCond(cldt1, "no", ORDER.ASC);
+//		bookMapList = bookDAO.selectAllByCond(cldt2, "no", ORDER.ASC);
+//		bookMapList = bookDAO.selectAllByCond(cldt3, "no", ORDER.ASC);
+//		bookMapList = bookDAO.selectAllByCond(cldt4, "no", ORDER.ASC);
+//		bookMapList = bookDAO.selectAllByCond(cldt5, "no", ORDER.ASC);
+//		bookMapList = bookDAO.selectAllByCond(cldt6, "no", ORDER.ASC);
+//		bookMapList = bookDAO.selectAllByCond(cldt7, "no", ORDER.ASC);
+//		bookMapList = bookDAO.selectAllByCond(cldt8, "no", ORDER.ASC);
+		// Multi Condition
+		// int
+//		Condition<Integer> cMi1 = Condition.of("price", COND_INT_MULTI.BETWEEN_EX_EX, 110, 35000);
+//		Condition<Integer> cMi2 = Condition.of("price", COND_INT_MULTI.BETWEEN_IN_EX, 111, 35000);
+//		Condition<Integer> cMi3 = Condition.of("price", COND_INT_MULTI.BETWEEN_EX_IN, 110, 35000);
+//		Condition<Integer> cMi4 = Condition.of("price", COND_INT_MULTI.BETWEEN_IN_IN, -1, 34999);
+//		bookMapList = bookDAO.selectAllByCond(cMi1, "no", ORDER.ASC);
+//		bookMapList = bookDAO.selectAllByCond(cMi2, "no", ORDER.ASC);
+//		bookMapList = bookDAO.selectAllByCond(cMi3, "no", ORDER.ASC);
+//		bookMapList = bookDAO.selectAllByCond(cMi4, "no", ORDER.ASC);
+		// LocalDate
+//		// 해당 날짜 사이의 모든 데이터 검색
+//		Condition<LocalDate> cldM1 = Condition.of("period", COND_LOCALDATE_MULTI.BETWEEN, LocalDate.of(2017, 12, 17), LocalDate.of(2017, 12, 18));
+//		bookMapList = bookDAO.selectAllByCond(cldM1, "no", ORDER.ASC);
+		// LocalDateTime
+//		// 해당 시각 사이의 모든 데이터 검색
+//		Condition<LocalDateTime> cldtM1 = Condition.of("brwDay", COND_LOCALDATETIME_MULTI.BETWEEN, LocalDateTime.of(2017, 12, 18, 00, 17, 42, 845),
+//				LocalDateTime.of(2017, 12, 20, 19, 48, 14));
+//		bookMapList = bookDAO.selectAllByCond(cldtM1, "no", ORDER.ASC);
+		//---- All Condition<T> test -----/
+		
+		
+		
+		/***** BookDAO Usage *****/
+		/** local variables **/
+		BookDAO bookDAO = new BookDAO();
+		List<Map<String, Object>> bookMapList;
+//		/** Select All **/
+//		bookMapList = bookDAO.selectAll();
+//		/** Select by Condition with Order **/
+//		Condition<Integer> condSI1 = Condition.of("price", COND_INT_SINGLE.EQ, 35000);
+//		Order ordSI1 = Order.of("no", ORDER.ASC);
+//		Condition<LocalDate> condMLD1 = Condition.of("period", COND_LOCALDATE_MULTI.BETWEEN, LocalDate.of(2017, 12, 17), LocalDate.of(2017, 12, 18));
+//		Order ordMLD1 = Order.of("no", ORDER.DESC);
+//		bookMapList = bookDAO.selectAllByCond(condSI1, ordSI1);
+//		bookMapList = bookDAO.selectAllByCond(condMLD1, ordMLD1);
+		/** Insert a Book **/
+		Book b1 = new Book(-1, 613144, "윤성우의 열혈 C 프로그래밍", "윤성우", 40000,
+				"오렌지미디어", LocalDate.now(), "문적원1", "2_yoon_sung_woo_c.jpg",
+				"전양훈", LocalDateTime.now(), LocalDate.now());
+		bookDAO.insert(b1);
+		/**  **/
+		/**  **/
+		/**  **/
+		/**  **/
+		/**  **/
+		/**  **/
+		//---- BookDAO Usage -----/
 		
 		
 		
 		
-		
-//		bookMapList = bookDAO.selectAllByCond("name", false, "윤성우의 열혈 C++ 프로그래밍", "no", ORDER.ASC);
-//		bookMapList = bookDAO.selectAllByCond("name", true, "Java", "no", ORDER.ASC);
-		
-//		bookMapList = bookDAO.selectAllByCond("price", false, 111, "no", ORDER.ASC);
-//		bookMapList = bookDAO.selectAllByCond("price", true, 350, "no", ORDER.ASC);
-		
-//		// TODO: LocalDate 대소비교
-//		bookMapList = bookDAO.selectAllByCond("period", false, LocalDate.of(2017, 12, 16), "no", ORDER.ASC);
-//		bookMapList = bookDAO.selectAllByCond("period", true, LocalDate.of(2017, 12, 18), "no", ORDER.ASC);
-		
-//		// TODO: LocalDateTime 대소비교
-//		bookMapList = bookDAO.selectAllByCond("brwDay", false, LocalDateTime.of(2017, 12, 20, 22, 49, 33, 188000000) , "no", ORDER.ASC);
-//		bookMapList = bookDAO.selectAllByCond("brwDay", true, LocalDateTime.of(2017, 12, 20, 22, 49), "no", ORDER.ASC);
 		
 		
 		/*

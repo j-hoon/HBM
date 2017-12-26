@@ -14,53 +14,43 @@ import hbm.util.db.DbManager;
 import hbm.util.db.pool.DBConnectionPoolManager;
 import hbm.util.db.sql.Condition;
 import hbm.util.db.sql.Condition.*;
+import hbm.util.db.sql.Order.ORDER;
+import hbm.util.db.sql.Order;
 import hbm.util.db.sql.SqlFactory;
 import hbm.util.db.sql.SqlFactory.*;
 
 public class BookDAO {
 
-//	private Statement stmt = null;
-//	private Connection conn = null;
-
 	private DBConnectionPoolManager dbManager = null;
 	
 	public BookDAO() {
-//		this.stmt = DbManager.getInstance().getStatement();
-//		this.conn = DbManager.getInstance().getConn();
 		this.dbManager = DBConnectionPoolManager.getInstance();
 	}
-	/*
+	
 	// Insert a Book
 	public int insert(Book book) throws SQLException {
-		String sql = SqlFactory.makeInsert(book);
-		int ret = stmt.executeUpdate(sql);
-		conn.commit();
-		if(Properties.getInstance().isDebugMode())
-			Debug.show("[Ret int] " + ret + "\n");
+//		String sql = SqlFactory.makeInsert(book);
+//		int ret = stmt.executeUpdate(sql);
+//		conn.commit();
+//		if(Properties.getInstance().isDebugMode())
+//			Debug.show("[Ret int] " + ret + "\n");
+//		return ret;
+		int ret = dbManager.executeInsert(TABLE_NAME.BOOK, book);
 		return ret;
 	}
-	*/
-	// Select All Books
+	
+	// Select All Books with order
 	public List<Map<String, Object>> selectAll() {
-//		long start = System.currentTimeMillis();
-//		String sql = SqlFactory.makeSelectAll(TABLE_NAME.BOOK, "NO", ORDER.ASC);
-		List<Map<String, Object>> list = dbManager.executeSelect(TABLE_NAME.BOOK, "NO", ORDER.ASC);
-//		long end = System.currentTimeMillis();
-//		System.out.println("selectAll: " + (end - start));
+		List<Map<String, Object>> list = dbManager.executeSelect(TABLE_NAME.BOOK, Order.of("no", ORDER.ASC));
 		return list;
 	}
+	
 	// Select Only One Book - useless?
 	
-	// Select Books by Book.anyAttr Condition with Order
-	public <T> List<Map<String, Object>> selectAllByCond(Condition<T> cond, String orderColName, ORDER order) {
-//	public <T> List<Map<String, Object>> selectAllByCond(COL_TYPE condColType, String condColName, T condValue, boolean isLike,
-//			COL_TYPE orderColType, String orderColName, ORDER order) throws SQLException {
-//		String sql = SqlFactory.makeSelectAllByCondWithOrder(TABLE_NAME.BOOK, condColType, condColName, condValue, isLike, orderColType, orderColName, order);
-
-//		List<Map<String, Object>> list = dbManager.executeSelectByCond(TABLE_NAME.BOOK, condColName, isLike, condValue, orderColName, ORDER.ASC);
-		List<Map<String, Object>> list = dbManager.executeSelectByCond(TABLE_NAME.BOOK, cond, orderColName, ORDER.ASC);
-		
-		return null;
+	// Select Books by Condition with order
+	public <T> List<Map<String, Object>> selectAllByCond(Condition<T> cond, Order order) {
+		List<Map<String, Object>> list = dbManager.executeSelectByCond(TABLE_NAME.BOOK, cond, order);
+		return list;
 	}
 
 	/*
