@@ -7,7 +7,7 @@ import com.sun.istack.internal.NotNull;
 
 public class Book {
 	
-	// Members
+	// Member
 	@NotNull private int no;		// 등록 번호			PK					(00000000)
 	@NotNull private int symbol;	// 청구 기호								(000.000-000)
 	@NotNull private String name;	// 도서 명
@@ -24,9 +24,9 @@ public class Book {
 	private LocalDate period;		// 대여기간									(TODO null 외의 값 고려)
 	// 연체일: 반납기간-오늘	TODO 대여기간 알고리즘 고려
 	// 예약자: TODO 별도 테이블 고려
-	//-- Members
+	//-- Member
 	
-	// Static Members
+	// Static Member
 	
 	
 	// Constructor
@@ -47,25 +47,17 @@ public class Book {
 		this.period = period;
 	}
 	public Book(int no, int symbol, String name, String author, int price) {
-		this.no = no;
-		this.symbol = symbol;
-		this.name = name;
-		this.author = author;
-		this.price = price;
-		this.pub = "";
-		this.pubDay = null;
-		this.loc = "";
-		this.imgFile = "";
-		this.brwer = "";
-		this.brwDay = null;
-		this.period = null;
+		this(no, symbol, name, author, price, "", null, "", "", "", null, null);
 	}
 	public Book() {
-		this.no = -1;
-		this.symbol = -1;
-		this.name = "";
-		this.author = "";
-		this.price = -1;
+		this(-1, -1, "", "", -1, "", null, "", "", "", null, null);
+	}
+
+	@Override
+	public String toString() {
+		return "[no: " + this.no + ", symbol: " + this.symbol + ", name: " + this.name + ", author: " + this.author + ", price: " +this.price +
+				", pub: " + this.pub + ", pubDay: " + this.pubDay + ", loc: " + this.loc + ", imgFile: " + this.imgFile +
+				", brwer: " + this.brwer + ", brwDay: " + this.brwDay + ", period: " + this.period + "]";
 	}
 	
 	
@@ -100,13 +92,6 @@ public class Book {
 		this.brwer = "";
 		this.brwDay = null;
 		this.period = null;
-	}
-
-	@Override
-	public String toString() {
-		return "[no: " + this.no + ", symbol: " + this.symbol + ", name: " + this.name + ", author: " + this.author + ", price: " +this.price +
-				", pub: " + this.pub + ", pubDay: " + this.pubDay + ", loc: " + this.loc + ", imgFile: " + this.imgFile +
-				", brwer: " + this.brwer + ", brwDay: " + this.brwDay + ", period: " + this.period + "]";
 	}
 	
 	

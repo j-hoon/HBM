@@ -4,24 +4,28 @@ import com.sun.istack.internal.NotNull;
 
 public class Visitor {
 	
-	// Members
+	// Member
 	@NotNull private int no;		// 번호					PK, SEQ
 	@NotNull private char grade;	// 계정 등급			default 3		(0)		(0: to default constructor, 1~2: bad, 3: default, 4~6: grade, 7~8: admin, 9: super)
 	@NotNull private String id;		// ID					* 중복 불가능	(TODO: 암호화 고려)
 	@NotNull private String pw;		// PW									(TODO: 암호화 고려)
 	@NotNull private String name;	// 이름					
-	@NotNull private int birth;		// 생년월일				(birth date)	(000000)						(TODO: char[] 형으로? or NUMBER(6)?)
+	@NotNull private char birth[];	// 생년월일				(birth date)	(000000 / char[6])
 	@NotNull private String email;	// E-mail				
-	@NotNull private int phone;		// 휴대폰 번호							(000-0000-0000 / 000-000-0000)	(TODO: int형 범위초과, char[] 형으로?)
+	@NotNull private char phone[];	// 휴대폰 번호							([01]0-0000-0000 / [01]0-000-0000 / char[9])
 	private String imgFile;			// 사용자 사진 파일 명	
-	private int hPhone;				// 집 전화번호			(home phone)	(-1은 알 수 없음)				(TODO: int형 범위초과, char[] 형으로?)
+	private char hPhone[];			// 집 전화번호			(home phone)	([0]00-0000-0000 / [0]00-000-0000 / char[10] / -1은 알 수 없음)
 	private String addr;			// 주소					(address)		
-	private String group;			// 소속					
+	private String comp;			// 소속					(company)					
 	private String pos;				// 직책					(position)		
+	//-- Member
+
+	// Static Member
+	
 	
 	// Constructor
-	public Visitor(int no, char grade, String id, String pw, String name, int birth, String email, int phone,
-			String imgFile, int hPhone, String addr, String group, String pos) {
+	public Visitor(int no, char grade, String id, String pw, String name, char[] birth, String email, char[] phone,
+			String imgFile, char[] hPhone, String addr, String comp, String pos) {
 		this.no = no;
 		this.grade = grade;
 		this.id = id;
@@ -32,21 +36,23 @@ public class Visitor {
 		this.phone = phone;
 		this.imgFile = imgFile;
 		this.hPhone = hPhone;
-		this.group = group;
+		this.addr = addr;
+		this.comp = comp;
 		this.pos = pos;
 	}
-	public Visitor(int no, char grade, String id, String pw, String name, int birth, String email, int phone) {
-		this(no, grade, id, pw, name, birth, email, phone, "", -1, "", "", "");
+	public Visitor(int no, char grade, String id, String pw, String name, char[] birth, String email, char[] phone) {
+		this(no, grade, id, pw, name, birth, email, phone,
+				"", "0000000000".toCharArray(), "", "", "");
 	}
-	public Visitor() {
-		this(-1, '0', "", "", "", -1, "", -1);
-	}
+//	public Visitor() {
+//		this(-1, '0', "", "", "", "000000".toCharArray(), "", "000000000".toCharArray());
+//	}
 
 	@Override
 	public String toString() {
-		return "[no: " + this.no + ", grade: " + this.grade + ", id: " + this.id + ", pw: " + this.pw +
-				", name: " +this.name + ", birth: " + this.birth + ", email: " + this.email + ", phone: " + this.phone +
-				", imgFile: " + this.imgFile + ", hPhone: " + this.hPhone + ", group: " + this.group + ", pos: " + this.pos + "]";
+		return "[no: " + this.no + ", grade: " + this.grade + ", id: " + this.id + ", pw: " + this.pw + ", name: " +this.name +
+				", birth: " + new String(this.birth) + ", email: " + this.email + ", phone: " + new String(this.phone) +
+				", imgFile: " + this.imgFile + ", hPhone: " + new String(this.hPhone) + ", addr: " + addr + ", comp: " + this.comp + ", pos: " + this.pos + "]";
 	}
 	
 
@@ -81,10 +87,10 @@ public class Visitor {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getBirth() {
+	public char[] getBirth() {
 		return birth;
 	}
-	public void setBirth(int birth) {
+	public void setBirth(char[] birth) {
 		this.birth = birth;
 	}
 	public String getEmail() {
@@ -93,10 +99,10 @@ public class Visitor {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public int getPhone() {
+	public char[] getPhone() {
 		return phone;
 	}
-	public void setPhone(int phone) {
+	public void setPhone(char[] phone) {
 		this.phone = phone;
 	}
 	public String getImgFile() {
@@ -105,10 +111,10 @@ public class Visitor {
 	public void setImgFile(String imgFile) {
 		this.imgFile = imgFile;
 	}
-	public int gethPhone() {
+	public char[] gethPhone() {
 		return hPhone;
 	}
-	public void sethPhone(int hPhone) {
+	public void sethPhone(char[] hPhone) {
 		this.hPhone = hPhone;
 	}
 	public String getAddr() {
@@ -117,11 +123,11 @@ public class Visitor {
 	public void setAddr(String addr) {
 		this.addr = addr;
 	}
-	public String getGroup() {
-		return group;
+	public String getComp() {
+		return comp;
 	}
-	public void setGroup(String group) {
-		this.group = group;
+	public void setComp(String comp) {
+		this.comp = comp;
 	}
 	public String getPos() {
 		return pos;

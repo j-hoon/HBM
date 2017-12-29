@@ -16,7 +16,7 @@
      * 
  3. 외부 설계
      * 개발 환경
-       - Ubuntu 14.04 LTS x64 / Windows 7 Ultimate x64 / JDK 8u151 x64 / Eclipse Java Oxygen 1a x64 / Oracle DB 11g R2 XE(Express Edition) x64 / Git
+       - Ubuntu 14.04 LTS x64 / Windows 7 Ultimate K x64 / JDK 8u151 x64 / Eclipse Java Oxygen 1a x64 / Oracle DB 11g R2 XE(Express Edition) x64 / Git
      * GUI
        - Java LookAndFeel - OS별로 다르게, 기본 폰트 전체 적용
        - Photoshop ?
