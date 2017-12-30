@@ -24,7 +24,7 @@ public class VisitorSQL {
 			pstmt.setString(6, v.getEmail());
 			pstmt.setString(7, String.valueOf(v.getPhone()));
 			pstmt.setString(8, v.getImgFile());
-			pstmt.setString(9, String.valueOf(v.gethPhone()));
+			pstmt.setString(9, String.valueOf(v.getHPhone()));
 			pstmt.setString(10, v.getAddr());
 			pstmt.setString(11, v.getComp());
 			pstmt.setString(12, v.getPos());

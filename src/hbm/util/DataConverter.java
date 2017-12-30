@@ -111,7 +111,7 @@ public class DataConverter {
                     	if(map.get(keyAttribute) instanceof BigDecimal) {
                     		methods[i].invoke(ret, ((BigDecimal) map.get(keyAttribute)).intValue());
                     	}
-                    	// Prevent String-null Exception 
+                    	// Prevent String-null Exception
                     	else if(map.get(keyAttribute) instanceof String) {
                     		if(map.get(keyAttribute) != null)
                     			methods[i].invoke(ret, map.get(keyAttribute));

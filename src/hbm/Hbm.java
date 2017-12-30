@@ -148,6 +148,17 @@ public class Hbm {
 //		bookDAO.insert(b1);
 //		/** Select All **/
 //		bookMapList = bookDAO.selectAll();
+//		// Convert MapList to VOList
+//		List<Book> bookList = null;
+//		try {
+//			bookList = DataConverter.mapListToVOList(Book.class, bookMapList);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		System.out.println(bookList.size());
+//		for(Book b : bookList) {
+//			System.out.println(b);
+//		}
 //		/** Select by Condition with Order **/
 //		Condition<Integer> condSI1 = Condition.of("price", COND_INT_SINGLE.EQ, 35000);
 //		Order ordSI1 = Order.of("no", ORDER.ASC);
@@ -178,6 +189,17 @@ public class Hbm {
 //		visitorDAO.insert(v2);
 //		/** Select All **/
 //		visitorMapList = visitorDAO.selectAll();
+//		// Convert MapList to VOList
+//		List<Visitor> visitorList = null;
+//		try {
+//			visitorList = DataConverter.mapListToVOList(Visitor.class, visitorMapList);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		System.out.println(visitorList.size());
+//		for(Visitor v : visitorList) {
+//			System.out.println(v);
+//		}
 //		/** Select by Condition with Order **/
 //		Condition<Integer> condVistorSI1 = Condition.of("no", COND_INT_SINGLE.EQ, 13);
 //		Order ordVisitorSI1 = Order.of("no", ORDER.ASC);

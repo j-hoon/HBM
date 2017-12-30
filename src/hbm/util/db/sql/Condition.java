@@ -13,28 +13,28 @@ interface COND_MULTI extends COND {}
 public class Condition<T> {
 	
 	// Condition enum
-	public static enum COND_INT_SINGLE implements COND, COND_SINGLE {
+	public static enum COND_INT_SINGLE implements COND_SINGLE {
 		EQ, BIG_EX, BIG_IN, SMALL_EX, SMALL_IN
 	}
-	public static enum COND_STRING_SINGLE implements COND, COND_SINGLE {
+	public static enum COND_STRING_SINGLE implements COND_SINGLE {
 		EQ, LIKE
 	}
-	public static enum COND_LOCALDATE_SINGLE implements COND, COND_SINGLE {
+	public static enum COND_LOCALDATE_SINGLE implements COND_SINGLE {
 		EQ, BEFORE, AFTER, YEAR_IN, MONTH_IN
 	}
-	public static enum COND_LOCALDATETIME_SINGLE implements COND, COND_SINGLE {
+	public static enum COND_LOCALDATETIME_SINGLE implements COND_SINGLE {
 		/*EQ, */BEFORE, AFTER, YEAR_IN, MONTH_IN, DAY_IN, HOUR_IN, MIN_IN, SEC_IN
 	}
-	public static enum COND_CHAR_SINGLE implements COND, COND_SINGLE {
+	public static enum COND_CHAR_SINGLE implements COND_SINGLE {
 		// TODO
 	}
-	public static enum COND_INT_MULTI implements COND, COND_MULTI {
+	public static enum COND_INT_MULTI implements COND_MULTI {
 		BETWEEN_EX_EX, BETWEEN_IN_EX, BETWEEN_EX_IN, BETWEEN_IN_IN
 	}
-	public static enum COND_LOCALDATE_MULTI implements COND, COND_MULTI {
+	public static enum COND_LOCALDATE_MULTI implements COND_MULTI {
 		BETWEEN
 	}
-	public static enum COND_LOCALDATETIME_MULTI implements COND, COND_MULTI {
+	public static enum COND_LOCALDATETIME_MULTI implements COND_MULTI {
 		BETWEEN
 	}
 	
@@ -171,7 +171,7 @@ public class Condition<T> {
 	// Make Single Condition String be used to make SQL
 	private static <T> String makeCondSql(String condColName, COND_SINGLE cond, T value) {
 		// debug
-//		System.out.println("condColName: " + condColName + " | cond: " + cond + " | cond.getClass().getSimpleName(): " + cond.getClass().getSimpleName() + " | value: " + value + " | value.getClass(): " + value.getClass());
+		System.out.println("condColName: " + condColName + " | cond: " + cond + " | cond.getClass().getSimpleName(): " + cond.getClass().getSimpleName() + " | value: " + value + " | value.getClass(): " + value.getClass());
 		/** Single Condition **/
 		// int
 		if(cond instanceof COND_INT_SINGLE) {
@@ -221,7 +221,6 @@ public class Condition<T> {
 		// debug
 		System.out.println("condColName: " + condColName + " | cond: " + cond + " | cond.getClass().getSimpleName(): " + cond.getClass().getSimpleName() +
 				" | value1: " + value1 + " | value2: " + value2 + " | value1.getClass(): " + value1.getClass() + " | value2.getClass(): " + value2.getClass());
-		
 		/** Multi Condition **/
 		// int
 		if(cond instanceof COND_INT_MULTI) {

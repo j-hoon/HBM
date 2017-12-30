@@ -2,6 +2,8 @@ package hbm.visitor;
 
 import com.sun.istack.internal.NotNull;
 
+import hbm.util.Debug;
+
 public class Visitor {
 	
 	// Member
@@ -44,9 +46,9 @@ public class Visitor {
 		this(no, grade, id, pw, name, birth, email, phone,
 				"", "0000000000".toCharArray(), "", "", "");
 	}
-//	public Visitor() {
-//		this(-1, '0', "", "", "", "000000".toCharArray(), "", "000000000".toCharArray());
-//	}
+	public Visitor() {
+		this(-1, '0', "", "", "", "000000".toCharArray(), "", "000000000".toCharArray());
+	}
 
 	@Override
 	public String toString() {
@@ -66,9 +68,9 @@ public class Visitor {
 	public char getGrade() {
 		return grade;
 	}
-	public void setGrade(char grade) {
-		this.grade = grade;
-	}
+//	public void setGrade(char grade) {
+//		this.grade = grade;
+//	}
 	public String getId() {
 		return id;
 	}
@@ -90,9 +92,9 @@ public class Visitor {
 	public char[] getBirth() {
 		return birth;
 	}
-	public void setBirth(char[] birth) {
-		this.birth = birth;
-	}
+//	public void setBirth(char[] birth) {
+//		this.birth = birth;
+//	}
 	public String getEmail() {
 		return email;
 	}
@@ -102,21 +104,21 @@ public class Visitor {
 	public char[] getPhone() {
 		return phone;
 	}
-	public void setPhone(char[] phone) {
-		this.phone = phone;
-	}
+//	public void setPhone(char[] phone) {
+//		this.phone = phone;
+//	}
 	public String getImgFile() {
 		return imgFile;
 	}
 	public void setImgFile(String imgFile) {
 		this.imgFile = imgFile;
 	}
-	public char[] gethPhone() {
+	public char[] getHPhone() {
 		return hPhone;
 	}
-	public void sethPhone(char[] hPhone) {
-		this.hPhone = hPhone;
-	}
+//	public void setHPhone(char[] hPhone) {
+//		this.hPhone = hPhone;
+//	}
 	public String getAddr() {
 		return addr;
 	}
@@ -134,6 +136,31 @@ public class Visitor {
 	}
 	public void setPos(String pos) {
 		this.pos = pos;
+	}
+	
+	// char Setter
+	public void setGrade(String grade) {
+		if(grade.length() > 1)
+			Debug.error("'char Visitor.Grade' 데이터 형에 유효하지 않은 길이 입니다. (" + grade + ")");
+		this.grade = grade.charAt(0);
+	}
+	public void setBirth(String birth) {
+		if(birth.length() > 6) {
+			Debug.error("'char[6] Visitor.Birth' 데이터 형에 유효하지 않은 길이 입니다. (" + birth + ")");
+		} else
+			this.birth = birth.toCharArray();
+	}
+	public void setPhone(String phone) {
+		if(phone.length() > 9) {
+			Debug.error("'char[9] Visitor.Phone' 데이터 형에 유효하지 않은 길이 입니다. (" + phone + ")");
+		} else
+			this.phone = phone.toCharArray();
+	}
+	public void setHPhone(String hPhone) {
+		if(hPhone.length() > 10) {
+			Debug.error("'char[10] Visitor.HPhone' 데이터 형에 유효하지 않은 길이 입니다. (" + hPhone + ")");
+		} else
+			this.hPhone = hPhone.toCharArray();
 	}
 	
 }
