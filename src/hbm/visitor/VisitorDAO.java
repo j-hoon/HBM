@@ -3,11 +3,11 @@ package hbm.visitor;
 import java.util.List;
 import java.util.Map;
 
-import hbm.util.db.pool.DBConnectionPoolManager;
-import hbm.util.db.sql.Condition;
-import hbm.util.db.sql.Order;
-import hbm.util.db.sql.Order.ORDER;
-import hbm.util.db.sql.SqlFactory.TABLE_NAME;
+import hbm.db.DBConnectionPoolManager;
+import hbm.db.sql.Condition;
+import hbm.db.sql.Order;
+import hbm.db.sql.Order.ORDER;
+import hbm.db.sql.SqlFactory.TABLE_NAME;
 
 public class VisitorDAO {
 
@@ -17,9 +17,14 @@ public class VisitorDAO {
 		this.dbManager = DBConnectionPoolManager.getInstance();
 	}
 	
-	// Insert a Visitor
-	public int insert(Visitor visitor) {
-		int ret = dbManager.executeInsert(TABLE_NAME.VISITOR, visitor);
+//	// Insert a Visitor
+//	public int insert(Visitor visitor) {
+//		int ret = dbManager.executeInsert(TABLE_NAME.VISITOR, visitor);
+//		return ret;
+//	}
+	/** Join **/
+	public int signIn(Visitor visitor) {
+		int ret = 0;
 		return ret;
 	}
 	

@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class VisitorSQL {
-	
+
 	public static String getInsertAllSQL() {
 		return "VISITOR_NO.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?";
 	}

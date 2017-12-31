@@ -1,4 +1,4 @@
-package hbm.util.db.pool;
+package hbm.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -115,4 +115,5 @@ public class DBConnectionPool {
 		}
 		return con;
 	}
+	
 }

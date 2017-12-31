@@ -1,7 +1,7 @@
-package hbm.util.db.sql;
+package hbm.db.sql;
 
 public class Order {
-	
+
 	// Order enum
 	public static enum ORDER { ASC, DESC }
 	

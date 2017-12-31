@@ -1,20 +1,20 @@
-package hbm.util.db.sql;
+package hbm.db.sql;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import hbm.util.Debug;
 
-// Marker Interface
+//Marker Interface
 interface COND {}
 interface COND_SINGLE extends COND {}
 interface COND_MULTI extends COND {}
 
 public class Condition<T> {
-	
+
 	// Condition enum
 	public static enum COND_INT_SINGLE implements COND_SINGLE {
-		EQ, BIG_EX, BIG_IN, SMALL_EX, SMALL_IN
+		EQ, BIG_EX, BIG_IN, SMALL_EX, SMALL_IN;
 	}
 	public static enum COND_STRING_SINGLE implements COND_SINGLE {
 		EQ, LIKE

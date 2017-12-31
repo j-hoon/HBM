@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import com.sun.istack.internal.NotNull;
 
 public class Book {
-	
+
 	// Member
 	@NotNull private int no;		// 등록 번호			PK					(00000000)
 	@NotNull private int symbol;	// 청구 기호								(000.000-000)
@@ -168,7 +168,5 @@ public class Book {
 	public void setPeriod(LocalDate period) {
 		this.period = period;
 	}
-	
-	
 	
 }

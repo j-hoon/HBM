@@ -3,11 +3,11 @@ package hbm.book;
 import java.util.List;
 import java.util.Map;
 
-import hbm.util.db.pool.DBConnectionPoolManager;
-import hbm.util.db.sql.Condition;
-import hbm.util.db.sql.Order.ORDER;
-import hbm.util.db.sql.Order;
-import hbm.util.db.sql.SqlFactory.*;
+import hbm.db.DBConnectionPoolManager;
+import hbm.db.sql.Condition;
+import hbm.db.sql.Order;
+import hbm.db.sql.Order.ORDER;
+import hbm.db.sql.SqlFactory.TABLE_NAME;
 
 public class BookDAO {
 

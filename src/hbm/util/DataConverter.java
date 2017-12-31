@@ -1,8 +1,6 @@
 package hbm.util;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -14,9 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-
 public class DataConverter {
-	
+
 	/*
 	 * DB에서 호출 시 : DB-ResultSet => List<Map>
 	 * 호출 결과 GUI에 출력 시 : List<Map>
@@ -53,11 +50,7 @@ public class DataConverter {
 		    // Debug
 			if(Properties.getInstance().isDebugMode()) {
 				Debug.show("[Ret List<Map>]");
-				try {
-					Debug.showListToTable(list);
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				}
+				Debug.showListToTable(list);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -140,7 +133,7 @@ public class DataConverter {
 	/*
 	 * Convert List<Map<String, Object>> to List<VO>
 	 */
-	public static <T> List<T> mapListToVOList(Class<T> voType, List<Map<String, Object>> mapList) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	public static <T> List<T> mapListToVOList(Class<T> voType, List<Map<String, Object>> mapList) {
 		List<T> retList = new ArrayList<>();
         if(!mapList.isEmpty()) {
         	for(int i = 0; i < mapList.size(); i++) {
@@ -149,6 +142,5 @@ public class DataConverter {
         }
         return retList;
     }
-	
 	
 }

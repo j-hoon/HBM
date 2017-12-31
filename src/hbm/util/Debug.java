@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 public class Debug {
-	
+
 	// Default show
 	public static void show(String str) {
 		System.out.println(str);
@@ -22,7 +22,7 @@ public class Debug {
 	/*
 	 * Show List to DB-Table
 	 */
-	public static void showListToTable(List<Map<String, Object>> list) throws UnsupportedEncodingException {
+	public static void showListToTable(List<Map<String, Object>> list) {
 		Map<String, Integer> colsLength = new HashMap<>();
 		Iterator<String> itr = null;
 		String keyAttr = null;
@@ -50,8 +50,12 @@ public class Debug {
 				keyAttr = itr.next();
 				int valueLen = -1;
 				if(list.get(i).get(keyAttr) != null) {
-//					valueLen = list.get(i).get(keyAttr).toString().length();
-					valueLen = list.get(i).get(keyAttr).toString().getBytes("MS949").length;
+					try {
+//						valueLen = list.get(i).get(keyAttr).toString().length();
+						valueLen = list.get(i).get(keyAttr).toString().getBytes("MS949").length;
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					}
 					if(valueLen > colsLength.get(keyAttr))
 						colsLength.replace(keyAttr, valueLen);
 				}
@@ -102,4 +106,5 @@ public class Debug {
 		}
 		System.out.println();
 	}
+	
 }

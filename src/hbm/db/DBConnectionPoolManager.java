@@ -1,11 +1,10 @@
-package hbm.util.db.pool;
+package hbm.db;
 
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,19 +15,19 @@ import java.util.Vector;
 
 import hbm.book.Book;
 import hbm.book.BookSQL;
+import hbm.db.sql.Condition;
+import hbm.db.sql.Condition.*;
+import hbm.db.sql.Order;
+import hbm.db.sql.SqlFactory;
+import hbm.db.sql.SqlFactory.TABLE_NAME;
 import hbm.util.DataConverter;
 import hbm.util.Debug;
 import hbm.util.Properties;
-import hbm.util.db.sql.Condition;
-import hbm.util.db.sql.Condition.*;
-import hbm.util.db.sql.Order;
-import hbm.util.db.sql.SqlFactory;
-import hbm.util.db.sql.SqlFactory.*;
 import hbm.visitor.Visitor;
 import hbm.visitor.VisitorSQL;
 
 public class DBConnectionPoolManager {
-	
+
 	private Vector<String> drivers = new Vector<String>();
 	private Hashtable<String, DBConnectionPool> pools = new Hashtable<String, DBConnectionPool>();
 

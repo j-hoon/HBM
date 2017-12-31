@@ -1,6 +1,5 @@
 package hbm.util;
 
-
 public class Properties {
 
 	private final boolean isDebugMode = true;

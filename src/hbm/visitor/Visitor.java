@@ -5,7 +5,7 @@ import com.sun.istack.internal.NotNull;
 import hbm.util.Debug;
 
 public class Visitor {
-	
+
 	// Member
 	@NotNull private int no;		// 번호					PK, SEQ
 	@NotNull private char grade;	// 계정 등급			default 3		(0)		(0: to default constructor, 1~2: bad, 3: default, 4~6: grade, 7~8: admin, 9: super)
@@ -68,9 +68,6 @@ public class Visitor {
 	public char getGrade() {
 		return grade;
 	}
-//	public void setGrade(char grade) {
-//		this.grade = grade;
-//	}
 	public String getId() {
 		return id;
 	}
@@ -92,9 +89,6 @@ public class Visitor {
 	public char[] getBirth() {
 		return birth;
 	}
-//	public void setBirth(char[] birth) {
-//		this.birth = birth;
-//	}
 	public String getEmail() {
 		return email;
 	}
@@ -104,9 +98,6 @@ public class Visitor {
 	public char[] getPhone() {
 		return phone;
 	}
-//	public void setPhone(char[] phone) {
-//		this.phone = phone;
-//	}
 	public String getImgFile() {
 		return imgFile;
 	}
@@ -116,9 +107,6 @@ public class Visitor {
 	public char[] getHPhone() {
 		return hPhone;
 	}
-//	public void setHPhone(char[] hPhone) {
-//		this.hPhone = hPhone;
-//	}
 	public String getAddr() {
 		return addr;
 	}
