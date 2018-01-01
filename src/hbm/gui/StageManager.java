@@ -3,6 +3,8 @@ package hbm.gui;
 import java.io.IOException;
 
 import hbm.Main;
+import hbm.util.Properties;
+import hbm.util.Properties.OS_NAME;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -51,8 +53,13 @@ public class StageManager {
 		if(!_STAGE.getCssURL().equals(""))
 			scene.getStylesheets().add(Main.class.getResource(CSS_PATH + _STAGE.getCssURL()).toExternalForm() + ".css");
 		Main.getPrimaryStage().setTitle(_STAGE.getTitle());
+		if(Properties.getInstance().getOsName().equals(OS_NAME.LINUX)) {
+//			Main.getPrimaryStage().hide();
+			Main.getPrimaryStage().close();		// TODO: use other function to prevent memory leak
+		}
+//		Main.getPrimaryStage().setScene(null);	// TODO: use other function to prevent memory leak
 		Main.getPrimaryStage().setScene(scene);
-		Main.getPrimaryStage().show();
+//		Main.getPrimaryStage().show();
 	}
 	
 }

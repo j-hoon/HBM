@@ -1,8 +1,10 @@
 package hbm.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import hbm.Main;
 import hbm.db.sql.Condition;
 import hbm.db.sql.Order;
 import hbm.db.sql.Condition.COND_STRING_SINGLE;
@@ -12,11 +14,16 @@ import hbm.gui.StageManager.STAGE;
 import hbm.visitor.VisitorDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class LoginController /*implements Initializable */{
 	

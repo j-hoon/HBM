@@ -2,6 +2,7 @@ package hbm;
 	
 import hbm.gui.StageManager;
 import hbm.gui.StageManager.STAGE;
+import hbm.util.Properties;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -14,9 +15,14 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		// Set PrimaryStage
 		setPrimaryStage(primaryStage);
-
+		
+		// Set Current OS
+		Properties.getInstance().setOsName();
+		System.out.println(Properties.getInstance().getOsName());
+		
 		// Show LoginScene
 		StageManager.changeStage(STAGE.LOGIN);
+		getPrimaryStage().show();
 	}
 	
 	/**

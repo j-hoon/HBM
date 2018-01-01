@@ -4,6 +4,12 @@ public class Properties {
 
 	private final boolean isDebugMode = true;
 //	private final boolean isHardDebugMode = true;
+	private static String osName;
+	
+	public enum OS_NAME {
+		LINUX, WINDOWS
+	}
+	
 	
 	private Properties() {
 		
@@ -21,10 +27,23 @@ public class Properties {
 	public boolean isDebugMode() {
 		return isDebugMode;
 	}
+	public OS_NAME getOsName() {
+		return OS_NAME.valueOf(osName);
+	}
 	
 	// Setter
+	public void setOsName() {
+		String _OS_NAME = System.getProperty("os.name");
+		if(_OS_NAME.equalsIgnoreCase("linux"))
+			osName = OS_NAME.LINUX.toString();
+		else if(_OS_NAME.equalsIgnoreCase("windows"))
+			osName = OS_NAME.WINDOWS.toString();
+		else
+			osName = _OS_NAME;
+	}
 	
 	
 	// Public Methods
+	
 	
 }
