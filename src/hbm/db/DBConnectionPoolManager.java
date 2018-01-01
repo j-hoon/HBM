@@ -131,6 +131,56 @@ public class DBConnectionPoolManager {
 //		return list;
 //	}
 	
+	/***** Utility *****/
+	// 
+	public int getRowCount(String selectSql) {
+		Connection conn = getConnection(DBConnectionPool.name);
+		int ret = -1;
+		if(Properties.getInstance().isDebugMode())
+			Debug.show("[SQL] " + selectSql);
+		
+		try (PreparedStatement pstmt = conn.prepareStatement(selectSql) ; ResultSet resultSet = pstmt.executeQuery()) {
+			 resultSet.next();
+			 ret = resultSet.getInt(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			freeConnection(DBConnectionPool.name, conn);
+		}
+		if(Properties.getInstance().isDebugMode())
+			Debug.show("[Ret int] " + ret);
+		return ret;
+	}
+	//----- Utility -----/
+	
+	/***** Execute Query *****/
+	// 
+	public ResultSet executeQuery(String selectSql) {
+		Connection conn = getConnection(DBConnectionPool.name);
+		ResultSet resultSet = null;
+		if(Properties.getInstance().isDebugMode())
+			Debug.show("[SQL] " + selectSql);
+		
+		try (PreparedStatement pstmt = conn.prepareStatement(selectSql)) {
+			 resultSet = pstmt.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(resultSet != null) {
+				try {
+					resultSet.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			freeConnection(DBConnectionPool.name, conn);
+		}
+		if(Properties.getInstance().isDebugMode())
+			Debug.show("[Ret ResultSet] " + resultSet);
+		return resultSet;
+	}
+	//----- Execute Query -----/
+	
 	
 	/***** Execute CRUD *****/
 	/**
@@ -280,7 +330,7 @@ public class DBConnectionPoolManager {
 			Debug.show("[Ret int] " + ret);
 		return ret;
 	}
-
+	//----- Execute CRUD -----/
 	
 	
 	/**

@@ -65,7 +65,7 @@
 		
 		<!-- (Text) txtLoginStatus -->
 		<Text fx:id="txtLoginStatus" text="로그인 상태" fill="FIREBRICK">
-			<GridPane.columnIndex>1</GridPane.columnIndex>
+			<GridPane.columnIndex>0</GridPane.columnIndex>
 			<GridPane.rowIndex>6</GridPane.rowIndex>
 		</Text>
 		

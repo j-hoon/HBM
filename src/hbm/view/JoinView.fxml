@@ -39,7 +39,14 @@
 			<GridPane.rowIndex>1</GridPane.rowIndex>
 		</TextField>
 		
-		<Button text="확인" onAction="#checkJoinId" >
+		<!-- (Button) btnCheckJoinId -->
+		<Button fx:id="btnCheckJoinId" text="확인" onAction="#checkJoinId" >
+			<GridPane.columnIndex>2</GridPane.columnIndex>
+			<GridPane.rowIndex>1</GridPane.rowIndex>
+		</Button>
+		
+		<!-- (Button) btnReCheckJoinId -->
+		<Button fx:id="btnReCheckJoinId" text="다시 작성" onAction="#reCheckJoinId" visible="false">
 			<GridPane.columnIndex>2</GridPane.columnIndex>
 			<GridPane.rowIndex>1</GridPane.rowIndex>
 		</Button>
@@ -104,7 +111,7 @@
 		<HBox spacing="10" alignment="BOTTOM_LEFT">
 			<GridPane.columnIndex>0</GridPane.columnIndex>
 			<GridPane.rowIndex>8</GridPane.rowIndex>
-			<Button text="뒤로가기" onAction="#goBack" />
+			<Button text="뒤로가기" onAction="#goBackToLogin" />
 		</HBox>
 		
 		<!-- (Button) btnJoin -->
@@ -114,6 +121,13 @@
 			<GridPane.columnSpan>2</GridPane.columnSpan>
 			<Button text="회원가입" onAction="#join" />
 		</HBox>
+		
+		<!-- (Text) txtJoinStatus -->
+		<Text fx:id="txtJoinStatus" text="회원가입 상태" fill="FIREBRICK">
+			<GridPane.columnIndex>0</GridPane.columnIndex>
+			<GridPane.rowIndex>10</GridPane.rowIndex>
+			<GridPane.columnSpan>3</GridPane.columnSpan>
+		</Text>
 		
 	</children>
 </GridPane>

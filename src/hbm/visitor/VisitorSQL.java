@@ -32,5 +32,9 @@ public class VisitorSQL {
 			e.printStackTrace();
 		}
 	}
+	
+	public static String getRowCountByIdSQL(String id) {
+		return "SELECT COUNT(*) FROM VISITOR WHERE ID = '"+id+"'";
+	}
 
 }

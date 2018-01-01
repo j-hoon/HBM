@@ -1,5 +1,6 @@
 package hbm.visitor;
 
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
@@ -17,16 +18,25 @@ public class VisitorDAO {
 		this.dbManager = DBConnectionPoolManager.getInstance();
 	}
 	
+	/**  **/
+	public boolean isVaildId(String id) {
+		int rowCnt = dbManager.getRowCount(VisitorSQL.getRowCountByIdSQL(id));
+		if(rowCnt == 0)
+			return true;
+		else
+			return false;
+	}
+	
 //	// Insert a Visitor
 //	public int insert(Visitor visitor) {
 //		int ret = dbManager.executeInsert(TABLE_NAME.VISITOR, visitor);
 //		return ret;
 //	}
-	/** Join **/
-	public int signIn(Visitor visitor) {
-		int ret = 0;
-		return ret;
-	}
+//	/** Join **/
+//	public int join(Visitor visitor) {
+//		int ret = 0;
+//		return ret;
+//	}
 	
 	// Select All Visitors with Order
 	public List<Map<String, Object>> selectAll() {
