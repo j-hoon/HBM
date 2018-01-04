@@ -7,7 +7,7 @@ public class Properties {
 	private static String osName;
 	
 	public enum OS_NAME {
-		LINUX, WINDOWS
+		LINUX, WINDOWS7, UNKNOWN
 	}
 	
 	
@@ -36,10 +36,10 @@ public class Properties {
 		String _OS_NAME = System.getProperty("os.name");
 		if(_OS_NAME.equalsIgnoreCase("linux"))
 			osName = OS_NAME.LINUX.toString();
-		else if(_OS_NAME.equalsIgnoreCase("windows"))
-			osName = OS_NAME.WINDOWS.toString();
+		else if(_OS_NAME.equalsIgnoreCase("windows 7"))
+			osName = OS_NAME.WINDOWS7.toString();
 		else
-			osName = _OS_NAME;
+			osName = OS_NAME.UNKNOWN.toString();
 	}
 	
 	

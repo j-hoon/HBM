@@ -8,7 +8,10 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.geometry.Insets?>
+<?import javafx.util.StringConverter?>
+<?import javafx.util.converter.DateStringConverter?>
 
 <GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" 
 	alignment="CENTER" hgap="10" vgap="10" fx:controller="hbm.controller.JoinController">
@@ -29,7 +32,7 @@
 			</font>
 		</Text>
 		
-		<Label text="*아이디" >
+		<Label text="*아이디">
 			<GridPane.columnIndex>0</GridPane.columnIndex>
 			<GridPane.rowIndex>1</GridPane.rowIndex>
 		</Label>
@@ -40,7 +43,7 @@
 		</TextField>
 		
 		<!-- (Button) btnCheckJoinId -->
-		<Button fx:id="btnCheckJoinId" text="확인" onAction="#checkJoinId" >
+		<Button fx:id="btnCheckJoinId" text="확인" onAction="#checkJoinId">
 			<GridPane.columnIndex>2</GridPane.columnIndex>
 			<GridPane.rowIndex>1</GridPane.rowIndex>
 		</Button>
@@ -51,7 +54,7 @@
 			<GridPane.rowIndex>1</GridPane.rowIndex>
 		</Button>
 		
-		<Label text="*비밀번호" >
+		<Label text="*비밀번호">
 			<GridPane.columnIndex>0</GridPane.columnIndex>
 			<GridPane.rowIndex>2</GridPane.rowIndex>
 		</Label>
@@ -62,7 +65,7 @@
 			<GridPane.columnSpan>2</GridPane.columnSpan>
 		</PasswordField>
 		
-		<Label text="*이름" >
+		<Label text="*이름">
 			<GridPane.columnIndex>0</GridPane.columnIndex>
 			<GridPane.rowIndex>3</GridPane.rowIndex>
 		</Label>
@@ -73,18 +76,18 @@
 			<GridPane.columnSpan>2</GridPane.columnSpan>
 		</TextField>
 		
-		<Label text="*생년월일" >
+		<Label text="*생년월일">
 			<GridPane.columnIndex>0</GridPane.columnIndex>
 			<GridPane.rowIndex>4</GridPane.rowIndex>
 		</Label>
-		<!-- (TextField) tfJoinBirth -->
-		<TextField fx:id="tfJoinBirth" promptText="birth">
+		<!-- (DatePicker) dpJoinBirth -->
+		<DatePicker fx:id="dpJoinBirth" promptText="birth">
 			<GridPane.columnIndex>1</GridPane.columnIndex>
 			<GridPane.rowIndex>4</GridPane.rowIndex>
 			<GridPane.columnSpan>2</GridPane.columnSpan>
-		</TextField>
+		</DatePicker>
 		
-		<Label text="*이메일" >
+		<Label text="*이메일">
 			<GridPane.columnIndex>0</GridPane.columnIndex>
 			<GridPane.rowIndex>5</GridPane.rowIndex>
 		</Label>
@@ -95,7 +98,7 @@
 			<GridPane.columnSpan>2</GridPane.columnSpan>
 		</TextField>
 		
-		<Label text="*휴대전화" >
+		<Label text="*휴대전화">
 			<GridPane.columnIndex>0</GridPane.columnIndex>
 			<GridPane.rowIndex>6</GridPane.rowIndex>
 		</Label>
