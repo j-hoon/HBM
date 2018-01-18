@@ -3,35 +3,35 @@ package hbm.gui;
 import java.io.IOException;
 
 import hbm.Main;
+import hbm.controller.MainController;
 import hbm.util.Properties;
 import hbm.util.Properties.OS_NAME;
+import hbm.visitor.Visitor;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 public class StageManager {
 	
-	public enum STAGE {
-		LOGIN("LoginView", 450, 600, "HBM - 로그인"),
-		JOIN("JoinView", 450, 600, "HBM - 회원가입");
+	public enum VIEW {
+		LOGIN("LoginView", "HBM - 로그인", false),
+		JOIN("JoinView", "HBM - 회원가입", false),
+		MAIN("MainView", "HBM", true);
 		private String fxmlURL;
-		private double width;
-		private double height;
 		private String title;
+		private boolean resizable;
 		private String cssURL;
-		private STAGE(String f, int w, int h, String t, String c) {
-			this.fxmlURL = f;
-			this.width = w;
-			this.height = h;
-			this.title = t;
-			this.cssURL = c;
+		private VIEW(String fxmlURL, String title, boolean resizable, String cssURL) {
+			this.fxmlURL = fxmlURL;
+			this.title = title;
+			this.resizable = resizable;
+			this.cssURL = cssURL;
 		}
-		private STAGE(String f, int w, int h, String t) { this(f, w, h, t, ""); }
+		private VIEW(String fxmlURL, String title, boolean resizable) { this(fxmlURL, title, resizable, ""); }
 		private String getFxmlURL() { return this.fxmlURL; }
-		public double getWidth() { return this.width; }
-		public double getHeight() { return this.height; }
 		public String getTitle() { return this.title; }
 		public String getCssURL() { return this.cssURL; }
+		public boolean isResizable() { return this.resizable; }
 	}
 
 	private final static String FXML_PATH = "/hbm/view/";
@@ -39,27 +39,55 @@ public class StageManager {
 	
 	
 	/**
-	 * Change stage to STAGE parameter
-	 * @param _STAGE enum value of STAGE
+	 * Change stage to VIEW parameter
+	 * @param view enum value of VIEW
 	 */
-	public static void changeStage(STAGE _STAGE) {
+	public static void changeStage(VIEW view) {
 		Parent root = null;
 		try {
-			root = FXMLLoader.load(Main.class.getResource(FXML_PATH + _STAGE.getFxmlURL() + ".fxml"));
+			root = FXMLLoader.load(Main.class.getResource(FXML_PATH + view.getFxmlURL() + ".fxml"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Scene scene = new Scene(root, _STAGE.getWidth(), _STAGE.getHeight());
-		if(!_STAGE.getCssURL().equals(""))
-			scene.getStylesheets().add(Main.class.getResource(CSS_PATH + _STAGE.getCssURL()).toExternalForm() + ".css");
-		Main.getPrimaryStage().setTitle(_STAGE.getTitle());
+		Scene scene = new Scene(root);
+		if(!view.getCssURL().equals(""))
+			scene.getStylesheets().add(Main.class.getResource(CSS_PATH + view.getCssURL()).toExternalForm() + ".css");
+		Main.getPrimaryStage().setResizable(view.isResizable());
+		Main.getPrimaryStage().setTitle(view.getTitle());
 		if(Properties.getInstance().getOsName().equals(OS_NAME.LINUX)) {
-//			Main.getPrimaryStage().hide();
-			Main.getPrimaryStage().close();		// TODO: use other function to prevent memory leak
+			// TODO: use other function to prevent memory leak
+			Main.getPrimaryStage().close();
+			Main.getPrimaryStage().show();
 		}
-//		Main.getPrimaryStage().setScene(null);	// TODO: use other function to prevent memory leak
 		Main.getPrimaryStage().setScene(scene);
-//		Main.getPrimaryStage().show();
+		Main.getPrimaryStage().centerOnScreen();
+	}
+	public static void changeStage(VIEW view, Object controllerParam) {
+		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(FXML_PATH + view.getFxmlURL() + ".fxml"));
+		Parent root = null;
+		
+		if(view.equals(VIEW.MAIN))
+			fxmlLoader.setControllerFactory(c -> new MainController((Visitor) controllerParam));
+//		else if()
+//			
+	
+		try {
+			root = (Parent) fxmlLoader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Scene scene = new Scene(root);
+		if(!view.getCssURL().equals(""))
+			scene.getStylesheets().add(Main.class.getResource(CSS_PATH + view.getCssURL()).toExternalForm() + ".css");
+		Main.getPrimaryStage().setResizable(view.isResizable());
+		Main.getPrimaryStage().setTitle(view.getTitle());
+		if(Properties.getInstance().getOsName().equals(OS_NAME.LINUX)) {
+			// TODO: use other function to prevent memory leak
+			Main.getPrimaryStage().close();
+			Main.getPrimaryStage().show();
+		}
+		Main.getPrimaryStage().setScene(scene);
+		Main.getPrimaryStage().centerOnScreen();
 	}
 	
 }

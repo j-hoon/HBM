@@ -24,7 +24,10 @@ import hbm.util.DataConverter;
 import hbm.util.Debug;
 import hbm.util.Properties;
 import hbm.visitor.Visitor;
+import hbm.visitor.VisitorDetail;
 import hbm.visitor.VisitorSQL;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class DBConnectionPoolManager {
 
@@ -133,7 +136,7 @@ public class DBConnectionPoolManager {
 	
 	/***** Utility *****/
 	// 
-	public int getRowCount(String selectSql) {
+	public int execCountQuery(String selectSql) {
 		Connection conn = getConnection(DBConnectionPool.name);
 		int ret = -1;
 		if(Properties.getInstance().isDebugMode())
@@ -153,7 +156,172 @@ public class DBConnectionPoolManager {
 	}
 	//----- Utility -----/
 	
-	/***** Execute Query *****/
+	
+	/***** Execute SQL *****/
+	// 
+	public int execInsert(String updateSql, Object obj) {
+		Connection conn = getConnection(DBConnectionPool.name);
+		PreparedStatement pstmt = null;
+		int ret = -1;
+		if(Properties.getInstance().isDebugMode())
+			Debug.show("[SQL] " + updateSql);
+		
+		try {
+			pstmt = conn.prepareStatement(updateSql);
+			
+			// set ? Value and execute TX
+			if(obj instanceof VisitorDetail) {
+				// TX processing
+				conn.setAutoCommit(false);
+				
+				// execute INSERT INTO VISITOR
+				VisitorSQL.setAllParamsOfInsertSQL(pstmt, (Visitor) obj);
+				ret = pstmt.executeUpdate();
+
+				// execute INSERT INTO VISITOR_DETAIL
+				pstmt = conn.prepareStatement(VisitorSQL.getInsertDetailSQL());
+				VisitorSQL.setAllParamsOfInsertDetailSQL(pstmt, ((VisitorDetail) obj));
+				ret = pstmt.executeUpdate();
+				conn.commit();
+			}
+			else if(obj instanceof Visitor) {
+				// execute INSERT INTO VISITOR
+				VisitorSQL.setAllParamsOfInsertSQL(pstmt, (Visitor) obj);
+				ret = pstmt.executeUpdate();
+				conn.commit();
+			}
+//			else if() {
+//				
+//			}
+			
+		} catch (SQLException e) {
+			// TX processing
+			if(conn != null) {
+				try {
+					conn.rollback();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			freeConnection(DBConnectionPool.name, conn);
+		}
+		
+		if(Properties.getInstance().isDebugMode())
+			Debug.show("[Ret int] " + ret);
+		return ret;
+	}
+	// 
+	public Object execSelectOnlyOne(TABLE_NAME tableName, String selectSql) {
+		Connection conn = getConnection(DBConnectionPool.name);
+		ResultSet resultSet = null;
+		Object ret = null;
+		int resultCnt = 0;
+		if(Properties.getInstance().isDebugMode())
+			Debug.show("[SQL] " + selectSql);
+		
+		try (PreparedStatement pstmt = conn.prepareStatement(selectSql)) {
+			resultSet = pstmt.executeQuery();
+			
+		    while(resultSet.next()) {
+		    	resultCnt++;
+		    	if(resultCnt == 1) {
+		    		// 
+		    		if(tableName.equals(TABLE_NAME.VISITOR))
+		    			ret = new Visitor(
+		    					resultSet.getInt(1), 
+		    					resultSet.getString(2).charAt(0), 
+		    					resultSet.getString(3), 
+		    					"****", /*resultSet.getString(4)*/
+		    					resultSet.getString(5),
+			    				resultSet.getString(6), 
+			    				resultSet.getDate(7).toLocalDate(), 
+			    				resultSet.getString(8), 
+			    				resultSet.getString(9)
+			    				);
+//		    		else if(tableName.equals(TABLE_NAME.))
+//		    			ret = 
+		    	}
+		    }
+//			if(Properties.getInstance().isDebugMode())
+//				Debug.show("executeSelectOnlyOne().resultCnt: " + resultCnt);
+	    	
+		    if(resultCnt == 0) {
+		    	ret = null;
+		    	Debug.show("execSelectOnlyOne() : 결과값이 없습니다.");
+		    } else if(resultCnt > 1) {
+		    	ret = null;
+		    	Debug.error("execSelectOnlyOne() : 결과값이 2개 이상입니다.");
+		    }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(resultSet != null) {
+				try {
+					resultSet.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			freeConnection(DBConnectionPool.name, conn);
+		}
+		if(Properties.getInstance().isDebugMode())
+			Debug.show("[Ret ResultSet] " + resultSet);
+		return ret;
+	}
+	// 
+	public <T extends Visitor> ObservableList<T> execSelect(TABLE_NAME tableName, String selectSql) {
+		Connection conn = getConnection(DBConnectionPool.name);
+		ResultSet resultSet = null;
+		ObservableList<T> ret = null;
+		if(Properties.getInstance().isDebugMode())
+			Debug.show("[SQL] " + selectSql);
+		
+		try (PreparedStatement pstmt = conn.prepareStatement(selectSql)) {
+			resultSet = pstmt.executeQuery();
+			ret = FXCollections.observableArrayList();
+			
+			if(tableName.equals(TABLE_NAME.VISITOR)) {
+				while(resultSet.next()) {
+					@SuppressWarnings("unchecked")
+					T visitor = (T) new Visitor(
+							resultSet.getInt(1), 
+							resultSet.getString(2).charAt(0), 
+							resultSet.getString(3), 
+							resultSet.getString(4), 
+							resultSet.getString(5), 
+							resultSet.getString(6), 
+							resultSet.getDate(7).toLocalDate(), 
+							resultSet.getString(8), 
+							resultSet.getString(9)
+							);
+					ret.add(visitor);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(resultSet != null) {
+				try {
+					resultSet.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			freeConnection(DBConnectionPool.name, conn);
+		}
+		if(Properties.getInstance().isDebugMode())
+			Debug.show("[Ret ResultSet] " + resultSet);
+		return ret;
+	}
 	// 
 	public ResultSet executeQuery(String selectSql) {
 		Connection conn = getConnection(DBConnectionPool.name);
@@ -179,7 +347,8 @@ public class DBConnectionPoolManager {
 			Debug.show("[Ret ResultSet] " + resultSet);
 		return resultSet;
 	}
-	//----- Execute Query -----/
+	//----- Execute -----/
+	
 	
 	
 	/***** Execute CRUD *****/

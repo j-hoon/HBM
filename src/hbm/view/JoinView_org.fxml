@@ -7,7 +7,6 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -16,24 +15,15 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="768.0" maxWidth="1024.0" minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hbm.controller.JoinController">
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="600.0" maxWidth="800.0" minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" 
+	fx:controller="hbm.controller.JoinController">
    <content>
       <GridPane alignment="CENTER" hgap="10.0" nodeOrientation="LEFT_TO_RIGHT" vgap="5.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="500.0" minWidth="162.0" prefWidth="162.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="162.0" prefWidth="162.0" />
          </columnConstraints>
          <rowConstraints>
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
@@ -59,7 +49,7 @@
                   <Font size="18.0" />
                </font>
                <GridPane.margin>
-                  <Insets bottom="20.0" />
+                  <Insets bottom="10.0" />
                </GridPane.margin>
             </Text>
             <Label text="* 아이디" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
@@ -69,7 +59,7 @@
             </Label>
             <HBox GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <TextField fx:id="tfJoinId" prefWidth="800.0" promptText="아이디를 입력하세요." text="joen7619" />
+                  <TextField fx:id="tfJoinId" prefWidth="800.0" promptText="아이디를 입력하세요." />
                   <Button fx:id="btnCheckJoinId" maxWidth="80.0" minWidth="80.0" mnemonicParsing="false" onAction="#checkJoinId" prefWidth="80.0" text="확인" />
                </children>
             </HBox>
@@ -78,48 +68,26 @@
                   <Insets />
                </GridPane.margin>
             </Label>
-            <PasswordField fx:id="pfJoinPw" promptText="비밀번호를 입력하세요." GridPane.columnIndex="1" GridPane.rowIndex="3" text="asdasd1!" />
-            <Label layoutX="98.0" layoutY="72.0" text="* 비밀번호 확인" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
-            <PasswordField fx:id="pfJoinPwConf" layoutX="173.0" layoutY="67.0" promptText="비밀번호를 한번 더 입력하세요." GridPane.columnIndex="1" GridPane.rowIndex="5" text="asdasd1!" />
+            <PasswordField fx:id="pfJoinPw" promptText="비밀번호를 입력하세요." GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label layoutX="98.0" layoutY="72.0" text="* 비밀번호확인" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+            <PasswordField fx:id="pfJoinPwConf" layoutX="173.0" layoutY="67.0" promptText="비밀번호를 한번 더 입력하세요." GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label layoutX="84.0" layoutY="153.0" text="* 이름" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
             <HBox GridPane.columnIndex="1" GridPane.rowIndex="7">
                <children>
-                  <TextField fx:id="tfJoinLName" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" promptText="성을 입력하세요." text="Jeon">
+                  <TextField fx:id="tfJoinLName" prefWidth="120.0" promptText="성을 입력하세요.">
                      <HBox.margin>
                         <Insets right="6.0" />
                      </HBox.margin>
                   </TextField>
-                  <TextField fx:id="tfJoinFName" layoutX="10.0" layoutY="10.0" prefWidth="1024.0" promptText="이름을 입력하세요." text="YangHoon" />
+                  <TextField fx:id="tfJoinFName" layoutX="10.0" layoutY="10.0" promptText="이름을 입력하세요." />
                </children>
             </HBox>
             <Label layoutX="84.0" layoutY="194.0" text="* 생년월일" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
             <DatePicker fx:id="dpJoinBirth" editable="false" prefWidth="800.0" promptText="생년월일을 선택하세요." GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <Label layoutX="84.0" layoutY="194.0" text="* 이메일" GridPane.halignment="RIGHT" GridPane.rowIndex="11" />
-            <TextField fx:id="tfJoinEmail" layoutX="174.0" layoutY="189.0" promptText="이메일 주소를 입력하세요." GridPane.columnIndex="1" GridPane.rowIndex="11" text="joen7619@naver.com" />
+            <TextField fx:id="tfJoinEmail" layoutX="174.0" layoutY="189.0" promptText="이메일 주소를 입력하세요." GridPane.columnIndex="1" GridPane.rowIndex="11" />
             <Label layoutX="84.0" layoutY="256.0" text="* 휴대폰 번호" GridPane.halignment="RIGHT" GridPane.rowIndex="13" />
-            <TextField fx:id="tfJoinPhone" layoutX="174.0" layoutY="251.0" promptText="휴대폰 번호를 입력하세요." GridPane.columnIndex="1" GridPane.rowIndex="13" text="01012345678" />
-            <Label layoutX="220.0" layoutY="442.0" text="사진" GridPane.halignment="RIGHT" GridPane.rowIndex="15" />
-            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="15">
-               <children>
-                  <ImageView fx:id="ivJoinImgFile" fitHeight="0.0" fitWidth="0.0" pickOnBounds="true" preserveRatio="true">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </ImageView>
-                  <Button fx:id="btnJoinImgFile" mnemonicParsing="false" text="사진 선택" onAction="#chooseJoinImgFile" />
-               </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </HBox>
-            <Label layoutX="212.0" layoutY="503.0" text="집 전화번호" GridPane.halignment="RIGHT" GridPane.rowIndex="17" />
-            <TextField fx:id="tfJoinHPhone" layoutX="307.0" layoutY="498.0" promptText="집 전화번호를 입력하세요." GridPane.columnIndex="1" GridPane.rowIndex="17" />
-            <Label layoutX="204.0" layoutY="549.0" text="주소" GridPane.halignment="RIGHT" GridPane.rowIndex="19" />
-            <TextField fx:id="tfJoinAddr" layoutX="299.0" layoutY="544.0" promptText="주소를 입력하세요." GridPane.columnIndex="1" GridPane.rowIndex="19" />
-            <Label layoutX="204.0" layoutY="595.0" text="소속" GridPane.halignment="RIGHT" GridPane.rowIndex="21" />
-            <TextField fx:id="tfJoinComp" layoutX="299.0" layoutY="590.0" promptText="소속을 입력하세요." GridPane.columnIndex="1" GridPane.rowIndex="21" />
-            <Label layoutX="158.0" layoutY="43.0" text="직책" GridPane.halignment="RIGHT" GridPane.rowIndex="23" />
-            <TextField fx:id="tfJoinPos" layoutX="158.0" layoutY="38.0" promptText="직책을 입력하세요." GridPane.columnIndex="1" GridPane.rowIndex="23" />
+            <TextField fx:id="tfJoinPhone" layoutX="174.0" layoutY="251.0" promptText="휴대폰 번호를 입력하세요." GridPane.columnIndex="1" GridPane.rowIndex="13" />
             <TextFlow GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
                   <Text fx:id="txtJoinIdDesc" fill="#d6300f" strokeType="OUTSIDE" strokeWidth="0.0" />
@@ -176,48 +144,18 @@
                   <Insets bottom="10.0" left="5.0" />
                </GridPane.margin>
             </TextFlow>
-            <TextFlow layoutX="312.0" layoutY="468.0" GridPane.columnIndex="1" GridPane.rowIndex="16">
+            <Button mnemonicParsing="false" onAction="#goBackToLogin" text="뒤로가기" GridPane.rowIndex="16" />
+            <Button mnemonicParsing="false" onAction="#join" text="회원가입" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="16" />
+            <!-- 
+            <TextFlow GridPane.columnSpan="2147483647" GridPane.rowIndex="17">
                <children>
-                  <Text fx:id="txtJoinImgFileDesc" fill="#d6300f" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <Text fx:id="txtJoinStatus" fill="#d6300f" strokeType="OUTSIDE" strokeWidth="0.0" text="txtJoinStatus" />
                </children>
                <GridPane.margin>
-                  <Insets bottom="10.0" left="5.0" />
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </GridPane.margin>
             </TextFlow>
-            <TextFlow layoutX="212.0" layoutY="35.0" GridPane.columnIndex="1" GridPane.rowIndex="18">
-               <children>
-                  <Text fx:id="txtJoinHPhoneDesc" fill="#d6300f" strokeType="OUTSIDE" strokeWidth="0.0" />
-               </children>
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="5.0" />
-               </GridPane.margin>
-            </TextFlow>
-            <TextFlow layoutX="212.0" layoutY="35.0" GridPane.columnIndex="1" GridPane.rowIndex="20">
-               <children>
-                  <Text fx:id="txtJoinAddrDesc" fill="#d6300f" strokeType="OUTSIDE" strokeWidth="0.0" />
-               </children>
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="5.0" />
-               </GridPane.margin>
-            </TextFlow>
-            <TextFlow layoutX="212.0" layoutY="35.0" GridPane.columnIndex="1" GridPane.rowIndex="22">
-               <children>
-                  <Text fx:id="txtJoinCompDesc" fill="#d6300f" strokeType="OUTSIDE" strokeWidth="0.0" />
-               </children>
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="5.0" />
-               </GridPane.margin>
-            </TextFlow>
-            <TextFlow layoutX="212.0" layoutY="35.0" GridPane.columnIndex="1" GridPane.rowIndex="24">
-               <children>
-                  <Text fx:id="txtJoinPosDesc" fill="#d6300f" strokeType="OUTSIDE" strokeWidth="0.0" />
-               </children>
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="5.0" />
-               </GridPane.margin>
-            </TextFlow>
-            <Button mnemonicParsing="false" onAction="#goBackToLogin" text="뒤로가기" GridPane.rowIndex="26" />
-            <Button mnemonicParsing="false" onAction="#join" text="회원가입" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="26" />
+             -->
          </children>
          <padding>
             <Insets bottom="25.0" top="25.0" />

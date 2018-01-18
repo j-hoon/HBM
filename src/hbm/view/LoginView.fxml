@@ -34,7 +34,7 @@
 			<GridPane.rowIndex>1</GridPane.rowIndex>
 		</Label>
 		<!-- (TextField) tfLoginId -->
-		<TextField fx:id="tfLoginId" promptText="id">
+		<TextField fx:id="tfLoginId" promptText="id" text="joen76191" >
 			<GridPane.columnIndex>1</GridPane.columnIndex>
 			<GridPane.rowIndex>1</GridPane.rowIndex>
 		</TextField>
@@ -44,7 +44,7 @@
 			<GridPane.rowIndex>2</GridPane.rowIndex>
 		</Label>
 		<!-- (PasswordField) pfLoginPw -->
-		<PasswordField fx:id="pfLoginPw" promptText="password">
+		<PasswordField fx:id="pfLoginPw" promptText="password" text="asdasd1!">
 			<GridPane.columnIndex>1</GridPane.columnIndex>
 			<GridPane.rowIndex>2</GridPane.rowIndex>
 		</PasswordField>
@@ -53,7 +53,7 @@
 		<HBox spacing="10" alignment="BOTTOM_LEFT">
 			<GridPane.columnIndex>0</GridPane.columnIndex>
 			<GridPane.rowIndex>4</GridPane.rowIndex>
-			<Button text="회원가입" onAction="#join" />
+			<Button text="회원가입" onAction="#goToJoin" />
 		</HBox>
 		
 		<!-- (Button) btnLogin -->

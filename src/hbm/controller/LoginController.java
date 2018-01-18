@@ -1,43 +1,30 @@
 package hbm.controller;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import hbm.Main;
 import hbm.db.sql.Condition;
 import hbm.db.sql.Order;
 import hbm.db.sql.Condition.COND_STRING_SINGLE;
 import hbm.db.sql.Order.ORDER;
 import hbm.gui.StageManager;
-import hbm.gui.StageManager.STAGE;
+import hbm.gui.StageManager.VIEW;
+import hbm.util.Debug;
+import hbm.visitor.Visitor;
 import hbm.visitor.VisitorDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 public class LoginController /*implements Initializable */{
 	
 	// FXML member
 	@FXML private TextField tfLoginId;
 	@FXML private PasswordField pfLoginPw;
-//	@FXML private Button btnJoin;
-//	@FXML private Button btnLogin;
 	@FXML private Text txtLoginStatus;
 
 	
 //	@Override
 //	public void initialize(URL location, ResourceBundle resources) {
-//		// TODO Auto-generated method stub
 //		System.out.println("location: " + location);
 //		System.out.println("resources: " + resources);
 //	}
@@ -45,8 +32,8 @@ public class LoginController /*implements Initializable */{
 	/**
 	 * Join
 	 */
-	public void join(ActionEvent e) {
-		StageManager.changeStage(STAGE.JOIN);
+	public void goToJoin(ActionEvent e) {
+		StageManager.changeStage(VIEW.JOIN);
 	}
 	
 	/**
@@ -60,7 +47,15 @@ public class LoginController /*implements Initializable */{
             
             // Execute Select Query
             VisitorDAO visitorDAO = new VisitorDAO();
-            visitorDAO.selectAllByCond(Condition.of("id", COND_STRING_SINGLE.EQ, tfLoginId.getText()), Order.of("no", ORDER.ASC));
+            Visitor visitor = visitorDAO.login(tfLoginId.getText(), pfLoginPw.getText());
+            Debug.show("Visitor: " + visitor);
+            
+            if(visitor != null) {
+            	Debug.show("로그인 성공!");
+        		StageManager.changeStage(VIEW.MAIN, visitor);
+            } else {
+            	Debug.show("로그인 실패.");
+            }
             
 		} else {
 			System.err.println("ID와 PW를 입력해 주세요.");
