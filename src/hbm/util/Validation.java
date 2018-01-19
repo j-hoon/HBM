@@ -127,7 +127,7 @@ public class Validation {
 	// TODO 사용자 추가 정보
 	// 집 전화번호
 	public static class CheckHPhone extends Check<String> implements Predicate<String> {
-		public final static String VALID_DESC = "유효한 전화번호 입니다.";
+		public final static String VALID_DESC = "";
 		public final static String INVALID_DESC = "'-' 기호를 제외한 전화번호를 입력해 주세요.\n(02-123-4567 → 021234567)";
 		@Override
 		public boolean test(String hPhone) {

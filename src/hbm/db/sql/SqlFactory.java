@@ -10,7 +10,7 @@ import hbm.visitor.VisitorSQL;
 public class SqlFactory {
 
 	public static enum TABLE_NAME {
-		BOOK, VISITOR
+		BOOK, VISITOR, VISITOR_DETAIL
 	}
 	
 	private final static String INSERT_SQL = "INSERT INTO ";		// INSERT INTO _TABLE_ VALUES(_COL_VALUES_1_, _COL_VALUES_2_, _COL_VALUES_3_, ...)

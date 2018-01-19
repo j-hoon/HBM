@@ -247,8 +247,24 @@ public class DBConnectionPoolManager {
 			    				resultSet.getString(8), 
 			    				resultSet.getString(9)
 			    				);
-//		    		else if(tableName.equals(TABLE_NAME.))
-//		    			ret = 
+		    		else if(tableName.equals(TABLE_NAME.VISITOR_DETAIL))
+		    			ret = new VisitorDetail(
+		    					resultSet.getInt(1), 
+		    					resultSet.getString(2).charAt(0), 
+		    					resultSet.getString(3), 
+		    					"****", /*resultSet.getString(4)*/
+		    					resultSet.getString(5),
+			    				resultSet.getString(6), 
+			    				resultSet.getDate(7).toLocalDate(), 
+			    				resultSet.getString(8), 
+			    				resultSet.getString(9),
+		    					resultSet.getString(10), 
+		    					resultSet.getBinaryStream(11), 
+		    					resultSet.getString(12), 
+		    					resultSet.getString(13), 
+		    					resultSet.getString(14), 
+		    					resultSet.getString(15)
+		    					);
 		    	}
 		    }
 //			if(Properties.getInstance().isDebugMode())

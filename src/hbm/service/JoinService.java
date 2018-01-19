@@ -1,10 +1,10 @@
 package hbm.service;
 
 import hbm.Main;
-import hbm.controller.JoinController;
+import hbm.controller.join.JoinController;
 import hbm.gui.AlertManager;
 import hbm.gui.StageManager;
-import hbm.gui.StageManager.VIEW;
+import hbm.gui.StageManager.STAGE;
 import hbm.util.Debug;
 import hbm.util.Properties;
 import hbm.visitor.Visitor;
@@ -128,7 +128,7 @@ public class JoinService {
 				Debug.show("회원 가입 완료!");
 				AlertManager.show(AlertType.INFORMATION, "회원 가입", null,
 						"회원 가입이 완료되었습니다. 로그인 화면으로 이동합니다.");
-				StageManager.changeStage(VIEW.LOGIN);	// 로그인 화면으로 돌아가기
+				StageManager.changeStage(STAGE.LOGIN);	// 로그인 화면으로 돌아가기
 			}
 			// 오류
 			else {

@@ -1,11 +1,11 @@
 package hbm;
 	
 import hbm.gui.StageManager;
-import hbm.gui.StageManager.VIEW;
+import hbm.gui.StageManager.STAGE;
 import hbm.util.Properties;
+import hbm.visitor.Visitor;
 import javafx.application.Application;
 import javafx.stage.Stage;
-
 
 public class Main extends Application {
 	
@@ -22,7 +22,8 @@ public class Main extends Application {
 		System.out.println(Properties.getInstance().getOsName());
 		
 		// Show LoginScene
-		StageManager.changeStage(VIEW.LOGIN);
+		StageManager.changeStage(STAGE.LOGIN);
+//		StageManager.changeStage(STAGE.MAIN, (Visitor) new Visitor());
 		getPrimaryStage().show();
 	}
 	

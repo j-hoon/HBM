@@ -3,9 +3,9 @@ package hbm.gui;
 import java.io.IOException;
 
 import hbm.Main;
-import hbm.controller.MainController;
-import hbm.controller.VisitorDetailController;
-import hbm.gui.StageManager.VIEW;
+import hbm.controller.main.MainController;
+import hbm.controller.main.VisitorDetailController;
+import hbm.gui.StageManager.STAGE;
 import hbm.visitor.Visitor;
 import javafx.event.ActionEvent;
 import javafx.event.Event;

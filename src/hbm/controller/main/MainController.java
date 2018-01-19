@@ -1,31 +1,30 @@
-package hbm.controller;
+package hbm.controller.main;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.net.URL;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
-import hbm.Main;
-import hbm.service.MainService;
+import hbm.gui.ViewManager;
+import hbm.gui.ViewManager.VIEW;
+import hbm.service.main.MainService;
 import hbm.util.Binding;
 import hbm.util.Debug;
+import hbm.util.Properties;
+import hbm.util.wrapper.Controller;
 import hbm.visitor.Visitor;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class MainController implements Initializable {
+public class MainController extends Controller implements Initializable {
 	
 	// FXML Member
 	@FXML private TableView<Visitor> tvVisitor;
@@ -38,21 +37,31 @@ public class MainController implements Initializable {
 	@FXML private TableColumn<Visitor, LocalDate> tcBitrh;
 	@FXML private TableColumn<Visitor, String> tcEmail;
 	@FXML private TableColumn<Visitor, String> tcPhone;
+	
 	// 
+	@FXML private StackPane spPiVisitor;
 	@FXML private VBox vBoxVisitorDetail;
 	
 	// 
-	private Visitor visitor;
+	private Visitor user;
 	private MainService mainService;
-//	private ObservableList<Visitor> visitorList;
+	private Executor executor;
 	
-	public MainController(Visitor visitor) {
-		this.visitor = visitor;
+	public MainController(Visitor user) {
+		this.user = user;
 	}
 	
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		this.mainService = new MainService(this);
+	public void initialize(URL location, ResourceBundle resources) {		
+		// set Service Executor
+		executor = Executors.newCachedThreadPool(runnable -> {
+			Thread t = new Thread(runnable);
+			t.setDaemon(true);
+			return t;
+		});
+		
+		// set Service
+		this.mainService = new MainService(this, this.executor);
 
 		// set Table Column Value Factory
 		this.tcNo.setCellValueFactory(cellData -> cellData.getValue().noProperty().asObject());
@@ -70,44 +79,21 @@ public class MainController implements Initializable {
 			TableRow<Visitor> row = new TableRow<>();
 			row.setOnMouseClicked(e -> {
 				if(e.getClickCount() == 2 && row.getItem() != null) {
-					Visitor v = row.getItem();
-					System.out.println(v);
-
-					// 
-					FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/hbm/view/MainVisitorDetail.fxml"));
-					Parent root = null;
-					fxmlLoader.setControllerFactory(c -> new VisitorDetailController(this, (Visitor) v));
-					try {
-						root = (Parent) fxmlLoader.load();
-						this.vBoxVisitorDetail.getChildren().clear();
-						this.vBoxVisitorDetail.setMaxWidth(600.0);
-						this.vBoxVisitorDetail.getChildren().add(root);
-					} catch (IOException ioe) {
-						ioe.printStackTrace();
-					}
+					// show VisitorDetail View
+					ViewManager.showView(VIEW.VISITOR_DETAIL, this.vBoxVisitorDetail, this, (Visitor) row.getItem());
 				}
 			});
 			return row;
 		});
 		
-		/*
-		// set ImageView
-		if(visitor.getImgFileName() != null) {
-			Debug.show("visitor.getImgFileName(): " + visitor.getImgFileName());
-			
-//			Debug.show("visitor.getImgFileCont(): " + visitor.getImgFileCont());
-//			Debug.show("visitor.getImgFileCont().length(): " + visitor.getImgFileCont().length());
-//			ivVisitorImg.setImage(new Image(visitor.getImgFileCont()));
-//			FileChannel fileChannel = ((FileInputStream) visitor.getImgFileCont()).getChannel();
-//			ByteBuffer buffer = ByteBuffer.allocateDirect(1024);
-		}
-		*/
 	}
 	
 	
 	// 
 	public void showAllVisitor(ActionEvent e) {
-		// 
+		// Progress Indicator Visible
+		this.showPiVisitor(true);
+		// Execute MainService.GetAllVisitor
 		this.mainService.execGetAllVisitor();
 	}
 	
@@ -115,19 +101,20 @@ public class MainController implements Initializable {
 	public void setVisitorList(ObservableList<Visitor> visitorList) {
 		this.tvVisitor.setItems(visitorList);	
 	}
-	
+
+	// 
+	public void showPiVisitor(boolean show) {
+		if(show) this.spPiVisitor.setVisible(true);
+		else this.spPiVisitor.setVisible(false);
+	}
 	
 	
 	// Getter and Setter
-//	public ObservableList<Visitor> getVisitorList() {
-//		return this.visitorList;
-//	}
 	public TableView<Visitor> getTvVisitor() {
 		return this.tvVisitor;
 	}
 	public VBox getvBoxVisitorDetail() {
 		return this.vBoxVisitorDetail;
 	}
-	
 
 }

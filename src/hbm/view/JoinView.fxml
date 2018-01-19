@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="768.0" maxWidth="1024.0" minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hbm.controller.JoinController">
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="768.0" maxWidth="1024.0" minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hbm.controller.join.JoinController">
    <content>
       <GridPane alignment="CENTER" hgap="10.0" nodeOrientation="LEFT_TO_RIGHT" vgap="5.0">
          <columnConstraints>

@@ -3,6 +3,9 @@ package hbm.visitor;
 import java.io.InputStream;
 import java.time.LocalDate;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class VisitorDetail extends Visitor {
 	
 	// Member
@@ -13,6 +16,13 @@ public class VisitorDetail extends Visitor {
 	private String addr;				// 주소					(address)		
 	private String comp;				// 소속					(company)		
 	private String pos;					// 직책					(position)		
+
+//	private final StringProperty imgFileName;	// 사용자 사진 파일 명	
+//	private final InputStream imgFileCont;		// 사용자 사진 파일						
+//	private final StringProperty hPhone;		// 집 전화번호			(home phone)	([0]00-0000-0000 / [0]00-000-0000 / VARCHAR(10) / -1은 알 수 없음)
+//	private final StringProperty addr;			// 주소					(address)		
+//	private final StringProperty comp;			// 소속					(company)		
+//	private final StringProperty pos;			// 직책					(position)		
 	//-- Member
 	
 
@@ -26,13 +36,20 @@ public class VisitorDetail extends Visitor {
 		this.addr = addr;
 		this.comp = comp;
 		this.pos = pos;
+		
+//		this.imgFileName = new SimpleStringProperty(imgFileName);
+//		this.imgFileCont = imgFileCont;
+//		this.hPhone = new SimpleStringProperty(hPhone);
+//		this.addr = new SimpleStringProperty(addr);
+//		this.comp = new SimpleStringProperty(comp);
+//		this.pos = new SimpleStringProperty(pos);
 	}
 
 	@Override
 	public String toString() {
-		return "[no: " + this.no + ", grade: " + this.grade + ", id: " + this.id + ", pw: " + this.pw + 
-				", lName: " + this.lName + ", fName: " + this.fName + ", birth: " + this.birth + ", email: " + this.email + ", phone: " + this.phone + 
-				", imgFileName: " + this.imgFileName + ", imgFileCont: " + this.imgFileCont + ", hPhone: " + this.hPhone + ", addr: " + this.addr + ", comp: " + this.comp + ", pos: " + this.pos + "]";
+		return "[no: " + this.no.get() + ", grade: " + this.grade.get() + ", id: " + this.id.get() + ", pw: " + this.pw.get() + 
+				", lName: " + this.lName.get() + ", fName: " + this.fName.get() + ", birth: " + this.birth.get() + ", email: " + this.email.get() + ", phone: " + this.phone.get() + 
+				" / imgFileName: " + this.imgFileName + ", imgFileCont: " + this.imgFileCont + ", hPhone: " + this.hPhone + ", addr: " + this.addr + ", comp: " + this.comp + ", pos: " + this.pos + "]";
 	}
 	
 

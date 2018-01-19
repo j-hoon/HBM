@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<ScrollPane fx:id="spVisitorDetail" fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: transparent; -fx-border-color: red; -fx-border-width: 1;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hbm.controller.main.VisitorDetailController">
+   <content>
+      <GridPane alignment="CENTER" hgap="10.0" nodeOrientation="LEFT_TO_RIGHT" style="-fx-border-color: yellow; -fx-border-width: 1;" vgap="5.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0" prefWidth="250.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="15.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="사용자 상세 정보" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="15.0" />
+               </GridPane.margin>
+            </Text>
+            <Label text="사용자 번호" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+            <Text fx:id="txtVisitorDetailNo" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="no" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="2.0" />
+               </GridPane.margin>
+            </Text>
+            <Label layoutX="20.0" layoutY="46.0" text="* 계정등급" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+            <TextField fx:id="tfVisitorDetailGrade" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label layoutX="20.0" layoutY="74.0" text="* 아이디" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+            <HBox GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <children>
+                  <TextField fx:id="tfVisitorDetailId" prefWidth="800.0" />
+                  <Button maxWidth="80.0" minWidth="80.0" mnemonicParsing="false" prefWidth="80.0" text="확인" />
+               </children>
+            </HBox>
+            <Label layoutX="20.0" layoutY="72.0" text="* 비밀번호" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+            <PasswordField fx:id="pfVisitorDetailPw" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Label layoutX="20.0" layoutY="134.0" text="* 비밀번호 확인" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
+            <PasswordField fx:id="pfVisitorDetailPwConf" layoutX="91.0" layoutY="129.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <Label layoutX="25.0" layoutY="189.0" text="* 이름" GridPane.halignment="RIGHT" GridPane.rowIndex="11" />
+            <HBox GridPane.columnIndex="1" GridPane.rowIndex="11">
+               <children>
+                  <TextField fx:id="tfVisitorDetailLName" minWidth="120.0" prefWidth="800.0">
+                     <HBox.margin>
+                        <Insets right="6.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <TextField fx:id="tfVisitorDetailFName" prefWidth="800.0" />
+               </children>
+            </HBox>
+            <Button fx:id="btnCloseVisitorDetail" mnemonicParsing="false" onAction="#closeVisitorDetail" text="닫기" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" />
+            <Label layoutX="78.0" layoutY="251.0" text="* 생년월일" GridPane.halignment="RIGHT" GridPane.rowIndex="13" />
+            <DatePicker fx:id="dpVisitorDetailBirth" editable="false" prefWidth="800.0" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+            <Label layoutX="25.0" layoutY="282.0" text="* 이메일" GridPane.halignment="RIGHT" GridPane.rowIndex="15" />
+            <TextField fx:id="tfVisitorDetailEmail" layoutX="124.0" layoutY="122.0" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+            <Label layoutX="25.0" layoutY="313.0" text="* 휴대폰 번호" GridPane.halignment="RIGHT" GridPane.rowIndex="17" />
+            <TextField fx:id="tfVisitorDetailPhone" layoutX="124.0" layoutY="308.0" GridPane.columnIndex="1" GridPane.rowIndex="17" />
+            <Label layoutX="37.0" layoutY="344.0" text="사진" GridPane.halignment="RIGHT" GridPane.rowIndex="19" />
+            <HBox GridPane.columnIndex="1" GridPane.rowIndex="19">
+               <children>
+                  <ImageView fx:id="ivVisitorDetailImgFile" pickOnBounds="true" preserveRatio="true" />
+                  <Button minWidth="70.0" mnemonicParsing="false" text="사진 선택" />
+               </children>
+            </HBox>
+            <Label layoutX="25.0" layoutY="370.0" text="집 전화번호" GridPane.halignment="RIGHT" GridPane.rowIndex="21" />
+            <TextField fx:id="tfVisitorDetailHPhone" layoutX="124.0" layoutY="339.0" GridPane.columnIndex="1" GridPane.rowIndex="21" />
+            <Label layoutX="25.0" layoutY="391.0" text="주소" GridPane.halignment="RIGHT" GridPane.rowIndex="23" />
+            <TextField fx:id="tfVisitorDetailAddr" layoutX="124.0" layoutY="401.0" GridPane.columnIndex="1" GridPane.rowIndex="23" />
+            <Label layoutX="25.0" layoutY="412.0" text="소속" GridPane.halignment="RIGHT" GridPane.rowIndex="25" />
+            <TextField fx:id="tfVisitorDetailComp" layoutX="124.0" layoutY="432.0" GridPane.columnIndex="1" GridPane.rowIndex="25" />
+            <Label layoutX="25.0" layoutY="433.0" text="직책" GridPane.halignment="RIGHT" GridPane.rowIndex="27" />
+            <TextField fx:id="tfVisitorDetailPos" layoutX="124.0" layoutY="463.0" GridPane.columnIndex="1" GridPane.rowIndex="27" />
+            <TextFlow GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <children>
+                  <Text fx:id="txtVisitorDetailGradeDesc" fill="#d6300f" strokeType="OUTSIDE" strokeWidth="0.0" />
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </GridPane.margin>
+            </TextFlow>
+            <TextFlow GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <children>
+                  <Text fx:id="txtVisitorDetailIdDesc" fill="#d6300f" strokeType="OUTSIDE" strokeWidth="0.0" />
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </GridPane.margin>
+            </TextFlow>
+            <TextFlow GridPane.columnIndex="1" GridPane.rowIndex="8">
+               <children>
+                  <Text fx:id="txtVisitorDetailPwDesc" fill="#d6300f" strokeType="OUTSIDE" strokeWidth="0.0" />
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </GridPane.margin>
+            </TextFlow>
+            <TextFlow GridPane.columnIndex="1" GridPane.rowIndex="10">
+               <children>
+                  <Text fx:id="txtVisitorDetailPwConfDesc" fill="#d6300f" strokeType="OUTSIDE" strokeWidth="0.0" />
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </GridPane.margin>
+            </TextFlow>
+            <TextFlow GridPane.columnIndex="1" GridPane.rowIndex="12">
+               <children>
+                  <Text fx:id="txtVisitorDetailNameDesc" fill="#d6300f" strokeType="OUTSIDE" strokeWidth="0.0" />
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </GridPane.margin>
+            </TextFlow>
+            <TextFlow GridPane.columnIndex="1" GridPane.rowIndex="14">
+               <children>
+                  <Text fx:id="txtVisitorDetailBirthDesc" fill="#d6300f" strokeType="OUTSIDE" strokeWidth="0.0" />
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </GridPane.margin>
+            </TextFlow>
+            <TextFlow GridPane.columnIndex="1" GridPane.rowIndex="16">
+               <children>
+                  <Text fx:id="txtVisitorDetailEmailDesc" fill="#d6300f" strokeType="OUTSIDE" strokeWidth="0.0" />
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </GridPane.margin>
+            </TextFlow>
+            <TextFlow GridPane.columnIndex="1" GridPane.rowIndex="18">
+               <children>
+                  <Text fx:id="txtVisitorDetailPhone" fill="#d6300f" strokeType="OUTSIDE" strokeWidth="0.0" />
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </GridPane.margin>
+            </TextFlow>
+            <TextFlow GridPane.columnIndex="1" GridPane.rowIndex="22">
+               <children>
+                  <Text fx:id="txtVisitorDetailHPhoneDesc" fill="#d6300f" strokeType="OUTSIDE" strokeWidth="0.0" />
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </GridPane.margin>
+            </TextFlow>
+            <TextFlow GridPane.columnIndex="1" GridPane.rowIndex="24">
+               <children>
+                  <Text fx:id="txtVisitorDetailAddrDesc" fill="#d6300f" strokeType="OUTSIDE" strokeWidth="0.0" />
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </GridPane.margin>
+            </TextFlow>
+            <TextFlow GridPane.columnIndex="1" GridPane.rowIndex="26">
+               <children>
+                  <Text fx:id="txtVisitorDetailCompDesc" fill="#d6300f" strokeType="OUTSIDE" strokeWidth="0.0" />
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </GridPane.margin>
+            </TextFlow>
+            <TextFlow GridPane.columnIndex="1" GridPane.rowIndex="28">
+               <children>
+                  <Text fx:id="txtVisitorDetailPosDesc" fill="#d6300f" strokeType="OUTSIDE" strokeWidth="0.0" />
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </GridPane.margin>
+            </TextFlow>
+            <Button mnemonicParsing="false" text="되돌리기" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </padding>
+      </GridPane>
+   </content>
+</ScrollPane>

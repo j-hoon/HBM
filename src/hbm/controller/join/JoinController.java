@@ -1,4 +1,4 @@
-package hbm.controller;
+package hbm.controller.join;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,7 +10,7 @@ import java.util.ResourceBundle;
 import hbm.Main;
 import hbm.gui.AlertManager;
 import hbm.gui.StageManager;
-import hbm.gui.StageManager.VIEW;
+import hbm.gui.StageManager.STAGE;
 import hbm.service.JoinService;
 import hbm.util.Debug;
 import hbm.util.Properties;
@@ -78,7 +78,6 @@ public class JoinController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		joinService = new JoinService(this);
 		
-		
 		// Add ChangeListener of each Field to set Description Text after Validation Check
 		// 각 필드의 유효성 검사 후 확인 텍스트 변경
 		tfJoinId.textProperty().addListener((observable, oldValue, newValue) -> setTxtDesc(txtJoinIdDesc, newValue, new Validation.CheckId()));
@@ -143,7 +142,7 @@ public class JoinController implements Initializable {
 				"*.jpg", "*.jpeg", "*.bmp", "*.png", "*.gif"));
 		
 		File selectedFile = fileChooser.showOpenDialog(null);
-		if(selectedFile != null) {
+		if((selectedFile != null) && (selectedFile.getName().length() <= 60)) {
 			try (FileInputStream fis = new FileInputStream(selectedFile)) {
 				ivJoinImgFile.setImage(new Image(fis));
 				ivJoinImgFile.setFitWidth(200.0);
@@ -154,8 +153,8 @@ public class JoinController implements Initializable {
 				ioe.printStackTrace();
 			}
 		}
-//		else
-//			System.out.println("chooseJoinImgFile() - File is not valid...");
+		else
+			System.err.println("chooseJoinImgFile() - 유효하지 않은 파일이거나 파일 이름이 너무 깁니다. (최대 60글자)");
 	}
 	
 	// 
@@ -262,7 +261,7 @@ public class JoinController implements Initializable {
 
 	// 로그인 화면으로 돌아가기
 	public void goBackToLogin(ActionEvent e) {
-		StageManager.changeStage(VIEW.LOGIN);
+		StageManager.changeStage(STAGE.LOGIN);
 	}
 	
 	

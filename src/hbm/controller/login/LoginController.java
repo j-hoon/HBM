@@ -1,11 +1,11 @@
-package hbm.controller;
+package hbm.controller.login;
 
 import hbm.db.sql.Condition;
 import hbm.db.sql.Order;
 import hbm.db.sql.Condition.COND_STRING_SINGLE;
 import hbm.db.sql.Order.ORDER;
 import hbm.gui.StageManager;
-import hbm.gui.StageManager.VIEW;
+import hbm.gui.StageManager.STAGE;
 import hbm.util.Debug;
 import hbm.visitor.Visitor;
 import hbm.visitor.VisitorDAO;
@@ -33,7 +33,7 @@ public class LoginController /*implements Initializable */{
 	 * Join
 	 */
 	public void goToJoin(ActionEvent e) {
-		StageManager.changeStage(VIEW.JOIN);
+		StageManager.changeStage(STAGE.JOIN);
 	}
 	
 	/**
@@ -52,7 +52,7 @@ public class LoginController /*implements Initializable */{
             
             if(visitor != null) {
             	Debug.show("로그인 성공!");
-        		StageManager.changeStage(VIEW.MAIN, visitor);
+        		StageManager.changeStage(STAGE.MAIN, visitor);
             } else {
             	Debug.show("로그인 실패.");
             }
